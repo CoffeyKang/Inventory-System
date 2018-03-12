@@ -156,7 +156,7 @@ class Inventory extends Model
      */
     public function iod($from,$end,$itemno){
 
-        return DB::table('artran')->where('item',$itemno)->whereBetween('invdte',[$from,$end])->paginate(10);
+        return DB::table('new_arytrn')->where('item',$itemno)->whereBetween('invdte',[$from,$end])->paginate(10);
     }
 
     /**
@@ -164,7 +164,7 @@ class Inventory extends Model
      */
     public function iod_total($from,$end,$itemno){
 
-        return DB::table('artran')->where('item',$itemno)->whereBetween('invdte',[$from,$end])->get();
+        return DB::table('new_arytrn')->where('item',$itemno)->whereBetween('invdte',[$from,$end])->get();
     }
 
     /**
