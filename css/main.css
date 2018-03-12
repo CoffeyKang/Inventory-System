@@ -1,0 +1,18 @@
+.background-blue{
+	background-color: lightblue;
+	color:black;
+	min-width: 10px;
+	font-weight:400;
+}
+body{
+	font-family: 'Arial, Helvetica, sans-serif';
+    /*background-color: yellow;*/
+}
+
+.print_footer{
+	position: absolute;
+    bottom: 10%;
+    width: 100%;
+  /* Set the fixed height of the footer here */
+    height: 60px;
+}
