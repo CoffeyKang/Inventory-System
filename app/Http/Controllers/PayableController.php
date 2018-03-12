@@ -665,13 +665,13 @@ class PayableController extends Controller
         $sum =0;
         
         foreach ($apmast as $item) {  
+
             $item->invno = str_replace(' ', '_', $item->invno);
-           
+
             $amt_name = 'paidamt'.$item->invno;
 
             $amt_date = 'checkdate'.$item->invno;
             
-
         if ($request->$amt_name!=0) {
             
 
@@ -679,7 +679,7 @@ class PayableController extends Controller
 
             $check_number = 'checkno'.$item->invno; 
            
-
+            
             
             
             $item->paidamt += $request->$amt_name;

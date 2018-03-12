@@ -1386,7 +1386,6 @@ class AdminController extends Controller
      */
     public function fillUpDetails(Request $request){
 
-      renewFillUp();
 
       if($request->from&&$request->end) {
 

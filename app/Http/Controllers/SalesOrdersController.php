@@ -301,7 +301,6 @@ class SalesOrdersController extends Controller
 
     public function newSO2(Request $request){
 
-    	renewFillUp();
         $custno = $request->costomerNum;
 
         $request->session()->put('header.sotype',$request->type);
@@ -2084,6 +2083,16 @@ class SalesOrdersController extends Controller
         CustomerNote::find($id)->delete();
 
         return redirect()->back()->with('status_delete','Note Deleted.');
+    }
+
+    public function clearSOshortlist(Request $request){
+        $custno = $request->custno;
+
+        $userid = $request->user;
+        
+        $soshortlist = ShortList::where('custno',$custno)->where('userid',$userid)->delete();
+
+        return $soshortlist;
     }
 }
 

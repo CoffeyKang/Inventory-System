@@ -285,6 +285,11 @@ Route::group(['prefix'=>"SO",'middleware' => 'auth'],function(){
 	 */
 	Route::any('continue_SO','SalesOrdersController@continue_SO');
 
+	/**
+	 * clear so shortlist
+	 */
+	Route::get('/clearSOshortlist','SalesOrdersController@clearSOshortlist');
+
 
 });
 

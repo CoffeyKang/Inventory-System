@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\TestLog::class,
+        Commands\FillUpSO::class,
     ];
 
     /**
@@ -25,8 +26,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('TestLog:james')
-                 ->monthlyOn(date('t'), '23:23'); 
-                 // ->everyMinute(); 
+                 ->monthlyOn(date('t'), '23:23');
+        
+        $schedule->command('FillUpSO:fillupSO')
+                 ->everyMinute();          
+                  
     }
 
     /**

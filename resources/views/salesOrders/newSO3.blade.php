@@ -231,14 +231,35 @@ font-weight: 700;
 
   });
   
-    console.log(f+'this is anthoer f')
-    $(window).bind('beforeunload', function(){
+    window.onbeforeunload = function(){
       console.log('this is initial f ' + f);
       if(f==0){
-        console.log('this is called');
-        return 'Are you sure you want to leave? Item will lose without saving.';
-      }}
-    );
+      	console.log(f);
+        var Ans = confirm("Are you sure you want change page!");
+
+        console.log(Ans);
+            if (Ans == true){
+                event.preventDefault();
+                // 
+                $.ajax({
+				    type : 'get',
+				    url : "/SO/clearSOshortlist",
+				    data:{'custno':"{{session()->get('header.custno')}}",
+						user: {{Auth::user()->id}} },
+				    success:function(data){
+				    }
+				});
+				return false;
+                
+            }else{
+                
+                console.log("22222222222222222222222");
+                event.preventDefault();
+                return false;
+            }
+      }else{}
+  };
+    
 </script>
         
     </div>
@@ -275,6 +296,7 @@ font-weight: 700;
     <script>
     $(window).ready(function(){
         $('#item').focus();
+        
         
     })
 

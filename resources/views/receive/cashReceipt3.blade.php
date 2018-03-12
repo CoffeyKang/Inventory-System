@@ -16,7 +16,7 @@
 	
 	
 	@if(count($open_invoice)>0)
-	<form action="/Receive/finishCash" method='post'>
+	<form action="/Receive/finishCash" method='post' id='submitForm'>
 	<h4>Payment Amount ==> <b id="paidamt">{{$paidamt}}</b>  </h4></b>
 	<table class="table table-striped" id='searchResultTable' style='font-size:14px'>
 	<thead>
@@ -61,8 +61,8 @@
 	</tbody>
 		
 	</table>
-	
-		<div class="col-xs-4 col-xs-offset-4" style='text-align:right'><h4>Total: <b id='total'>0</b> </h4></div>			
+		<div class="col-xs-4" style='text-align:right'><h4>Remaining Total: <b id='remaining'>0</b></div>
+		<div class="col-xs-4" style='text-align:right'><h4>Paid Total: <b id='total'>0</b> </h4></div>			
 		<div class="col-xs-4 " style='text-align:right'>
 			<button class="btn btn-success" id='Button'>Apply to Payment</button>
 
@@ -94,11 +94,11 @@
 		
 	</fieldset>
 	<script>
-
+		console.log({{$open_invoice->sum('balance')}});
 
 		function calculateTotal(){
 			$sum = 0.00;
-
+			$remaining = {{$open_invoice->sum('balance')}};
 
 				for (var i = 0; i < $('.amt').length; i++) {
 					$sum += parseFloat($('.amt')[i].value);
@@ -114,10 +114,16 @@
 				document.getElementById("Button").disabled = true;
 				document.getElementById('info').innerHTML = "<div class='col-xs-12 alert alert-danger' style='text-align:right' >Payment is not enough to pay !</div>";
 				
+			}else if($sum<{{$paidamt}}){
+				document.getElementById("Button").disabled = true;
+				document.getElementById('info').innerHTML = "<div class='col-xs-12 alert alert-success' style='text-align:right' >There is a overy pay.<br> Are you sure to Continue.<br><br><button class='btn btn-warning' id='overpay'>Make a over pay</button></div>";
+				$('#overpay').val($sum);
+				document.getElementById('remaining').innerHTML = ($remaining - $sum).toFixed(2);
 			}else{
 				document.getElementById("Button").disabled = false;
 				document.getElementById('info').innerHTML = "";
 				$('#overpay').val($sum);
+				document.getElementById('remaining').innerHTML = ($remaining - $sum).toFixed(2);
 			};
 		}
 		$('input').blur(function(){
@@ -129,6 +135,9 @@
 
 		$().ready(function(){
 			calculateTotal();
+			$('#overPay').click(function(){
+				$('#submitForm').submit();
+			});
 		});
 	</script>
 

@@ -67,7 +67,7 @@ class Inventory extends Model
      */
     public static function inqueryPO($item,$from_date,$end){
         
-        $PO = TEMP_PO::orderBy('purno','DESC')->where('qtyord','!=',0)->where('item',$item)->whereBetween('reqdate',[$from_date,$end])->paginate(10);
+        $PO = TEMP_PO::orderBy('purno','DESC')->where('item',$item)->where('qtyord','!=',0)->whereBetween('reqdate',[$from_date,$end])->paginate(10);
 
         return $PO;    
     }
@@ -156,7 +156,7 @@ class Inventory extends Model
      */
     public function iod($from,$end,$itemno){
 
-        return DB::table('new_arytrn')->where('item',$itemno)->whereBetween('invdte',[$from,$end])->paginate(10);
+        return DB::table('artran')->where('item',$itemno)->whereBetween('invdte',[$from,$end])->paginate(10);
     }
 
     /**
@@ -164,7 +164,7 @@ class Inventory extends Model
      */
     public function iod_total($from,$end,$itemno){
 
-        return DB::table('new_arytrn')->where('item',$itemno)->whereBetween('invdte',[$from,$end])->get();
+        return DB::table('artran')->where('item',$itemno)->whereBetween('invdte',[$from,$end])->get();
     }
 
     /**

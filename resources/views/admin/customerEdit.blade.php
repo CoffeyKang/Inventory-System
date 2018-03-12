@@ -241,9 +241,12 @@
 
     <div class="form-group">
       <label for="email" class="col-xs-2 control-label">Email</label>
-      <div class="col-xs-10">
+      <div class="col-xs-5">
         <input id="email" type="text" class="form-control" name="email" value="{{$customerEmail}}" >
-        
+      </div>
+      <label for="permit" class="col-xs-1 control-label">PERMIT</label>
+      <div class="col-xs-4">
+        <input id="permit" type="text" class="form-control" name="permit" value="{{$customer->permit}}">
       </div>
 
     </div>

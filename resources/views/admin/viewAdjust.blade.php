@@ -6,7 +6,7 @@
 
 @section('content')
 	<fieldset>
-		<legend>{{$item}} Adjustments History</legend>
+		<legend>{{$item}} Adjustments History </legend>
 
 
 		<div class="col-xs-12">

@@ -91,18 +91,7 @@ class Coffey extends Controller
 	 */
 	public function coffey(){
 
-		// echo phpinfo();
-		// 
-		
-		/**
-		 * set customer onorder
-		 */
-		$customers = Customer::all();
-
-		foreach ($customers as $customer) {
-			$customer->onorder = SalesOrder::where('custno',$customer->custno)->get()->sum('ordamt');
-			$customer->save();
-		}
+		echo phpinfo();
 		
 
 		

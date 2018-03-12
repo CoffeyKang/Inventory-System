@@ -31,6 +31,9 @@ use App\TempSOItem;
 use App\Shipment;
 
 use App\SoAddress;
+
+use App\HIS_ARYCSH;
+
 class ReceivableController extends Controller
 {
     //home
@@ -1815,8 +1818,33 @@ class ReceivableController extends Controller
 
             print_invoice($big_invno);
 
+            /** create new cash receipt */
 
+            $cash_over = new Arcash;
 
+            $cash_over->invno = "overPay";
+
+            $cash_over->invdte = $dtepaid;
+
+            $cash_over->custno = $custno;
+
+            $cash_over->salesmn = '';
+
+            $cash_over->ponum = "overPay";
+
+            $cash_over->paidamt = $over;
+
+            $cash->disamt = 0;
+
+            $cash_over->dtepaid = $dtepaid;
+
+            $cash_over->refno = "overPay";
+
+            $cash_over->save();
+
+            $over_cash_array = $cash_over->toArray();
+
+            HIS_ARYCSH::insert($over_cash_array);
             
             
         }else{

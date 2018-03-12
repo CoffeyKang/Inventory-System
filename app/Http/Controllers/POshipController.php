@@ -338,7 +338,6 @@ class POshipController extends Controller
                 'takedays'=>$takedays,
                 'fob'=>$fob,
                     ]);
-
         /**
          * update item on ship eta
          */
@@ -360,6 +359,8 @@ class POshipController extends Controller
                 'fob'=>$fob,
                     ]);
         }
+
+        
 
         
         delete_container_PDF($reqno);
