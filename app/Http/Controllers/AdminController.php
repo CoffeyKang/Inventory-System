@@ -1360,10 +1360,10 @@ class AdminController extends Controller
         $this->validate($request,[
           'custno'=>'exists:customers',
         ]);
-        $invoice = Armast::orderBy('invno','desc')->where('custno',$_GET['custno'])->whereBetween('invdte',[$from,$end])->get();  
+        $invoice = Armast::orderBy('invno','desc')->where('custno',$_GET['custno'])->whereBetween('invdte',[$from,$end])->where('invno','<=',9999999)->get();  
         $custno = $_GET['custno'];
       }else{
-        $invoice = Armast::orderBy('invno','desc')->whereBetween('invdte',[$from,$end])->get();  
+        $invoice = Armast::orderBy('invno','desc')->whereBetween('invdte',[$from,$end])->where('invno','<=',9999999)->get();  
         $custno = 'NO_CUSONO';
       }
 
@@ -2448,6 +2448,47 @@ class AdminController extends Controller
       return view('purchaseOrder.home');
 
   
+    }
+
+    public function customer_report(){
+      $terrs = Customer::select('terr')->distinct()->get();
+      $sales = Customer::select('salesmn')->distinct()->get();
+      return view('report.customer_report',compact('terrs','sales'));
+    }
+
+    public function customer_report_post(Request $request){
+      if ($request->pricecode=="empty"&&$request->salesmn=="empty"&&$request->terr=="empty") {
+        return redirect()->back()->with('status','Please Narrow down your selection criteria');
+      }
+
+      $customers = Customer::orderBy('custno','asc');
+      if ($request->pricecode!="empty") {
+        $customers = $customers->where('pricecode',$request->pricecode);
+      }else{
+      }
+
+      if ($request->salesmn!="empty") {
+        $customers = $customers->where('salesmn',$request->salesmn);
+      }else{
+      }
+
+      if ($request->terr!="empty") {
+        $customers = $customers->where('terr',$request->terr);
+      }else{
+      }
+
+      
+
+      $customers = $customers->paginate(10);
+
+      $terrs = Customer::select('terr')->distinct()->get();
+
+      $sales = Customer::select('salesmn')->distinct()->get();
+
+      print_customer_report($request->pricecode,$request->salesmn,$request->terr);
+
+      return view('report.customer_report',compact('customers','terrs','sales'));
+
     }
     
 

@@ -54,7 +54,7 @@
                             <li><a href="/inventoryReport?from=so">Inventory Report</a></li>
                             <li><a href="/fillUpDetails">Fill up SO - Details</a></li>
                             <li><a href="/businessStatus">Business Status Report</a></li>
-                            
+                            <li><a href="/SO/customer_report">Customers Report</a></li>
                           </ul>
                         </div>
                     </div>

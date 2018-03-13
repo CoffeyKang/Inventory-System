@@ -290,6 +290,10 @@ Route::group(['prefix'=>"SO",'middleware' => 'auth'],function(){
 	 */
 	Route::get('/clearSOshortlist','SalesOrdersController@clearSOshortlist');
 
+	/**	customer_report under so */
+	Route::get('/customer_report','AdminController@customer_report');
+
+	Route::get('/customer_report_result','AdminController@customer_report_post');
 
 });
 

@@ -1230,9 +1230,9 @@ use App\FillUpSO;
 
         	if ($custno!='NO_CUSONO') {
 		        
-		        $invoice = Armast::orderBy('invno','desc')->where('custno',$_GET['custno'])->whereBetween('invdte',[$from,$end])->get();  
+		        $invoice = Armast::orderBy('invno','desc')->where('custno',$_GET['custno'])->whereBetween('invdte',[$from,$end])->where('invno','<=',9999999)->get();  
 		      }else{
-		        $invoice = Armast::orderBy('invno','desc')->whereBetween('invdte',[$from,$end])->get();  
+		        $invoice = Armast::orderBy('invno','desc')->whereBetween('invdte',[$from,$end])->where('invno','<=',9999999)->get();  
 		        $custno = 'NO_CUSTNO';
 		      }   
 
@@ -2604,7 +2604,44 @@ use App\FillUpSO;
           $fill->save();
         }
       }
-    }
+	}
+	
+	function print_customer_report($pricecode,$salesmn,$terr){
+		if(!file_exists(public_path("PDF/customer_report/"))){
+			
+			mkdir(public_path("PDF/customer_report/"));
+		
+		}else{}
+
+      	$customers = Customer::orderBy('custno','asc');
+		if ($pricecode!="empty") {
+			$customers = $customers->where('pricecode',$pricecode);
+		}else{
+			$pricecode="";
+		}
+
+		if ($salesmn!="empty") {
+			$customers = $customers->where('salesmn',$salesmn);
+		}else{
+			$salesmn="";
+		}
+
+		if ($terr!="empty") {
+			$customers = $customers->where('terr',$terr);
+		}else{
+			$terr="";
+		}
+
+		
+
+		$customers = $customers->get();
+
+		
+		
+
+		PDF::loadView("PDF.customer_report",compact('customers','terr','salesmn','pricecode'))
+		->save(public_path("PDF/customer_report/customer_report".date('Y-m-d').".PDF"));	
+	}
 
 	   	
 
