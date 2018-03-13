@@ -100,13 +100,14 @@
                 <a href="/web/viewer.html?file=/PDF/customer_report/customer_report{{date('Y-m-d')}}.PDF" class="btn btn-success"
                     style='min-width:100px' target="_blank">Print</a>
             </div>
+            <script>
+                $().ready(function(){
+                        $('#pricecode').val("{{$_GET['pricecode']}}");
+                        $('#salesmn').val("{{$_GET['salesmn']}}");
+                        $('#terr').val("{{$_GET['terr']}}");
+                    });
+            </script>
         @endif
     </fieldset>
-    <script>
-        $().ready(function(){
-            $('#pricecode').val("{{$_GET['pricecode']}}");
-            $('#salesmn').val("{{$_GET['salesmn']}}");
-            $('#terr').val("{{$_GET['terr']}}");
-        });
-    </script>
+    
 @endsection
