@@ -2451,13 +2451,19 @@ class AdminController extends Controller
     }
 
     public function customer_report(){
+
       $terrs = Customer::select('terr')->distinct()->get();
       $sales = Customer::select('salesmn')->distinct()->get();
-      return view('report.customer_report',compact('terrs','sales'));
+      $types = Customer::select('type')->distinct()->get();
+      $industry = Customer::select('indust')->distinct()->get();
+      $codes = Customer::select('code')->distinct()->get();
+
+      return view('report.customer_report',compact('terrs','sales','types','industry','codes'));
     }
 
     public function customer_report_post(Request $request){
-      if ($request->pricecode=="empty"&&$request->salesmn=="empty"&&$request->terr=="empty") {
+      if ($request->pricecode=="empty"&&$request->salesmn=="empty"&&$request->terr=="empty"&&
+      $request->indust=="empty"&&$request->code=="empty"&&$request->type=="empty"&&$request->number<1) {
         return redirect()->back()->with('status','Please Narrow down your selection criteria');
       }
 
@@ -2477,17 +2483,43 @@ class AdminController extends Controller
       }else{
       }
 
+      if ($request->type!="empty") {
+        $customers = $customers->where('type',$request->type);
+      }else{
+      }
+
+      if ($request->indust!="empty") {
+        $customers = $customers->where('indust',$request->indust);
+      }else{
+      }
+
+      if ($request->code!="empty") {
+        $customers = $customers->where('code',$request->code);
+      }else{
+      }
+
+      if ($request->number>=1) {
+        $customers = $customers->has('so','>=',$request->number);
+      }else{
+      }
+
       
 
       $customers = $customers->paginate(10);
 
       $terrs = Customer::select('terr')->distinct()->get();
-
+      
       $sales = Customer::select('salesmn')->distinct()->get();
+      
+      $types = Customer::select('type')->distinct()->get();
+      
+      $industry = Customer::select('indust')->distinct()->get();
+      
+      $codes = Customer::select('code')->distinct()->get();
 
-      print_customer_report($request->pricecode,$request->salesmn,$request->terr);
+      print_customer_report($request->pricecode,$request->salesmn,$request->terr,$request->indust,$request->type,$request->code,$request->number);
 
-      return view('report.customer_report',compact('customers','terrs','sales'));
+      return view('report.customer_report',compact('customers','terrs','sales','types','industry','codes','number'));
 
     }
     

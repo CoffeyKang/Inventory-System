@@ -29,7 +29,8 @@
 <body>
     <h2 style='text-align:center'>Customers Report</h2>
 <h4 style='text-align:center'>DATE: {{date("Y-m-d")}}, PRICECODE:{{$pricecode}}, SALESPERSON:{{$salesmn}}
-    , TERRITORY:{{$terr}}
+    , TERRITORY:{{$terr}}<br>
+    INDUSTRY:{{$indust}}, TYPE:{{$type}}, MSC CODE:{{$code}}, MINIMUM ORDER:{{ $number }}
 </h4>
     <table class="table table-bordered table-striped">
         <thead>
@@ -39,7 +40,7 @@
             <th>YTD</th>
             <th>Type</th>
             <th>MSC Code</th>
-            <th>Industory</th>
+            <th>Industry</th>
             </tr>
         </thead>
         <tbody>

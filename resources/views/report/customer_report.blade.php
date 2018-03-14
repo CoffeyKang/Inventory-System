@@ -58,8 +58,52 @@
                             </select>
                         </div>
                     </div>
+
+                    <div class="form-group col-xs-6 ">
+                        <label for="type" class='col-xs-4 control-label'>Type</label>
+                        <div class="col-xs-8">
+                            <select name="type" id="type" class='form-control'>
+                                                    <option value="empty">type</option>
+                                                    @foreach ($types as $type)
+                                                    <option value="{{$type->type}}">{{$type->type}}</option>
+                                                    @endforeach                   
+                                                </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-6 ">
+                        <label for="indust" class='col-xs-4 control-label'>Industry</label>
+                        <div class="col-xs-8">
+                            <select name="indust" id="indust" class='form-control'>
+                                                    <option value="empty">Industry</option>
+                                                    @foreach ($industry as $indust)
+                                                    <option value="{{$indust->indust}}">{{$indust->indust}}</option>
+                                                    @endforeach                   
+                                                </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-xs-6 ">
+                        <label for="code" class='col-xs-4 control-label'>MSC CODE</label>
+                        <div class="col-xs-8">
+                            <select name="code" id="code" class='form-control'>
+                                <option value="empty">MSC CODE</option>
+                                    @foreach ($codes as $code)
+                                    <option value="{{$code->code}}">{{$code->code}}</option>
+                                    @endforeach                   
+                                </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-xs-6 ">
+                        <label for="number" class='col-xs-4 control-label'>Minimum Order</label>
+                        <div class="col-xs-8">
+                            <input type="number" class="form-control" name='number' placeholder='Minimum Order ..' min=0>
+                        </div>
+                    </div>
+
                     <div class="from-group col-xs-6" style='text-align:right; padding-right:45px;'>
-                        <button class="btn btn-primary" style='min-width:250px;'>Search</button>
+                        <button class="btn btn-default" style='min-width:100px;' type = 'reset'>Reset</button>
+                        <button class="btn btn-primary" style='min-width:100px;' type='submit'>Search</button>
                     </div>
         </div>
 
@@ -71,7 +115,7 @@
                     <th>YTD</th>
                     <th>Type</th>
                     <th>MSC Code</th>
-                    <th>Industory</th>
+                    <th>Industry</th>
                 </thead>
                 <tbody>
                     @foreach ($customers as $customer)
@@ -92,6 +136,9 @@
                         'pricecode'=>$_GET['pricecode'],
                         'salesmn'=>$_GET['salesmn'],
                         'terr'=>$_GET['terr'],
+                        'type'=>$_GET['type'], 
+                        'indust'=>$_GET['indust'], 
+                        'code'=>$_GET['code'],
                 ])->links() }}
             </div>
             <div class="col-xs-12 text-right">
@@ -105,6 +152,9 @@
                         $('#pricecode').val("{{$_GET['pricecode']}}");
                         $('#salesmn').val("{{$_GET['salesmn']}}");
                         $('#terr').val("{{$_GET['terr']}}");
+                        $('#indust').val("{{$_GET['indust']}}"); 
+                        $('#type').val("{{$_GET['type']}}"); 
+                        $('#code').val("{{$_GET['code']}}");
                     });
             </script>
         @endif

@@ -2606,7 +2606,7 @@ use App\FillUpSO;
       }
 	}
 	
-	function print_customer_report($pricecode,$salesmn,$terr){
+	function print_customer_report($pricecode,$salesmn,$terr,$indust,$type,$code,$number){
 		if(!file_exists(public_path("PDF/customer_report/"))){
 			
 			mkdir(public_path("PDF/customer_report/"));
@@ -2632,6 +2632,30 @@ use App\FillUpSO;
 			$terr="";
 		}
 
+		if ($indust!="empty") {
+			$customers = $customers->where('indust',$indust);
+		}else{
+			$indust="";
+		}
+
+		if ($type!="empty") {
+			$customers = $customers->where('type',$type);
+		}else{
+			$type="";
+		}
+
+		if ($code!="empty") {
+			$customers = $customers->where('code',$code);
+		}else{
+			$code="";
+		}
+
+		if ($number>=1) {
+			$customers = $customers->has('so','>=',$number);
+		}else{
+			$number="";
+		}
+
 		
 
 		$customers = $customers->get();
@@ -2639,7 +2663,7 @@ use App\FillUpSO;
 		
 		
 
-		PDF::loadView("PDF.customer_report",compact('customers','terr','salesmn','pricecode'))
+		PDF::loadView("PDF.customer_report",compact('customers','terr','salesmn','pricecode','indust','type','code','number'))
 		->save(public_path("PDF/customer_report/customer_report".date('Y-m-d').".PDF"));	
 	}
 

@@ -22,4 +22,7 @@ class SalesOrder extends Model
     public function soship(){
     	return $this->hasMany('App\Shipment','sono');
     }
+    public function customer(){
+        return $this->belongsTo('App\Customer','custno');
+    }
 }

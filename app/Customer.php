@@ -195,4 +195,8 @@ class Customer extends Model
         return $this->hasMany('App\FillUpSO','custno');
     }
 
+    /** has so */
+    public function so(){
+        return $this->hasMany('App\SalesOrder','custno');
+    }
 }
