@@ -2651,7 +2651,9 @@ use App\FillUpSO;
 		}
 
 		if ($number>=1) {
-			$customers = $customers->has('so','>=',$number);
+			$customers = $customers->has('so','>=',$request->number)->whereHas('so',function($query){
+				$query->where('ordate','>=','2017-08-01');
+			});
 		}else{
 			$number="";
 		}
