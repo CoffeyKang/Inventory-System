@@ -123,7 +123,7 @@
                             <th>{{ $customer->custno }}</th>
                             <th>{{ $customer->company }}</th>
                             <th class='text-right'>$ {{ $customer->ytdsls }}</th>
-                            <th class='text-right'>{{ $customer->pricecode }}</th>
+                            <th class='text-right'>{{ $customer->type }}</th>
                             <th>{{ $customer->code }}</th>
                             <th>{{ $customer->indust }}</th>
                         </tr>
