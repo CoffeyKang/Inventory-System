@@ -142,7 +142,7 @@
                 ])->links() }}
             </div>
             <div class="col-xs-12 text-right">
-                <a href="PDF/customer_report/customer_report{{date('Y-m-d')}}.PDF" class="btn btn-success" style='min-width:100px'
+                <a href="/PDF/customer_report/customer_report{{date('Y-m-d')}}.PDF" class="btn btn-success" style='min-width:100px'
                     download>Download</a>
                 <a href="/web/viewer.html?file=/PDF/customer_report/customer_report{{date('Y-m-d')}}.PDF" class="btn btn-success"
                     style='min-width:100px' target="_blank">Print</a>

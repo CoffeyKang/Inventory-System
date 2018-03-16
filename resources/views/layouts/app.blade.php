@@ -220,6 +220,7 @@ legend{padding:.5em;border:0;width:auto}
                                             <li><a href="{{ url('/admin/inventoryExcel') }}">Inventory Excel Report </a></li>
                                             <li><a href="{{ url('/admin/allocatedReport') }}">Allocated Report</a></li>
                                             <li><a href="{{ url('/admin/GLAAddress') }}">Ship To ADDRESS</a></li>
+                                            <li><a href="{{ url('/admin/SalesTax') }}">Sale Tax By territory</a></li>
                                             {{-- <li><a href="{{ url('/admin/cupt') }}">Set Cu Ft and Duty Rate</a></li> --}}
                                         </ul>
                                     <li>        

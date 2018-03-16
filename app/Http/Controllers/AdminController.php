@@ -2526,6 +2526,30 @@ class AdminController extends Controller
       return view('report.customer_report',compact('customers','terrs','sales','types','industry','codes','number'));
 
     }
+
+    public function SalesTax(){
+      $terrs = Customer::select('terr')->distinct()->get();
+      return view('admin.salesTax',compact('terrs'));
+    }
+
+    public function setSalesTax(Request $request){
+      
+      $this->validate($request,[
+        'tax'=>'required',
+      ]);
+
+      if ($request->terr=="empty") {
+        return redirect()->back()->with('status_danger','Please Select Territory.');
+      }else{
+        $customer = Customer::where('terr',$request->terr)->update([
+          'tax'=>$request->tax
+        ]);
+
+
+      }
+      return redirect()->back()->with('status','Change Successfully');
+
+    }
     
 
 

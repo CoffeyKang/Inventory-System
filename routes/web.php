@@ -1145,6 +1145,10 @@ Route::group(['prefix'=>'admin','middleware' => 'auth'],function(){
 
 	Route::get('/setFillUp','AdminController@setFillUp');
 
+	Route::get('/SalesTax','AdminController@SalesTax');
+
+	Route::post('/salesTax','AdminController@setSalesTax');
+
 	/**
 	 * errorlog
 	 */
