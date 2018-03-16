@@ -2462,8 +2462,9 @@ class AdminController extends Controller
     }
 
     public function customer_report_post(Request $request){
+      
       if ($request->pricecode=="empty"&&$request->salesmn=="empty"&&$request->terr=="empty"&&
-      $request->indust=="empty"&&$request->code=="empty"&&$request->type=="empty"&&$request->number<1) {
+      $request->indust=="empty"&&$request->code=="empty"&&$request->type=="empty"&& !is_numeric($request->number)) {
         return redirect()->back()->with('status','Please Narrow down your selection criteria');
       }
 
@@ -2498,10 +2499,11 @@ class AdminController extends Controller
       }else{
       }
 
-      if ($request->number>=1) {
-        $customers = $customers->has('so','>=',$request->number)->whereHas('so',function($query){
-          $query->where('ordate','>=','2017-08-01');
-        });
+      if (is_numeric($request->number) ) {
+        // $customers = $customers->has('so','>=',$request->number)->whereHas('so',function($query){
+        //   $query->where('ordate','>=','2017-08-01');
+        // });
+        $customers = $customers->where('ytdsls','<=',$request->number);
       }else{
       }
 

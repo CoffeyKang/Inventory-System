@@ -2650,10 +2650,11 @@ use App\FillUpSO;
 			$code="";
 		}
 
-		if ($number>=1) {
-			$customers = $customers->has('so','>=',$number)->whereHas('so',function($query){
-				$query->where('ordate','>=','2017-08-01');
-			});
+		if ( is_numeric($number) ) {
+			// $customers = $customers->has('so','>=',$number)->whereHas('so',function($query){
+			// 	$query->where('ordate','>=','2017-08-01');
+			// });
+			$customers = $customers->where('ytdsls','<=',$number);
 		}else{
 			$number="";
 		}

@@ -95,7 +95,7 @@
                     </div>
                     
                     <div class="form-group col-xs-6 ">
-                        <label for="number" class='col-xs-4 control-label'>Minimum Order</label>
+                        <label for="number" class='col-xs-4 control-label'>MAXIMUM Order</label>
                         <div class="col-xs-8">
                             <input type="number" class="form-control" name='number' placeholder='Minimum Order ..' min=0>
                         </div>
