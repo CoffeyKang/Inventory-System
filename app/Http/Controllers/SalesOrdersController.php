@@ -553,7 +553,7 @@ class SalesOrdersController extends Controller
 
             if (ShortList::where('custno',session()->get('header.custno'))->where('userid',Auth::user()->id)->first()) {
                 
-                $newSo = ShortList::where('custno',session()->get('header.custno'))->first()->sono;
+                $newSo = ShortList::where('custno',session()->get('header.custno'))->where('userid',Auth::user()->id)->first()->sono;
             }else{
                 
                 

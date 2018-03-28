@@ -141,16 +141,16 @@ class Coffey extends Controller
 		 * ----------------------------------------------
 		 */
 		
-		// $customers = Customer::all();
+		$customers = Customer::all();
 
-		// foreach ($customers as $customer) {
+		foreach ($customers as $customer) {
 
-		// 	$customer_onorder = SalesOrder::where('custno',$customer->custno)->get()->sum('ordamt');
+			$customer_onorder = SalesOrder::where('custno',$customer->custno)->get()->sum('ordamt');
 
-		// 	$customer->onorder = $customer_onorder;
+			$customer->onorder = $customer_onorder;
 
-		// 	$customer->save();
-		// }
+			$customer->save();
+		}
 		
 		
 		

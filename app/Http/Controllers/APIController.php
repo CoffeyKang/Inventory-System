@@ -28,6 +28,8 @@ use App\Apmast;
 
 use App\GLA_Address;
 
+use App\ShortList;
+
 class APIController extends Controller
 {
     //search all customers by customer number
@@ -957,4 +959,11 @@ class APIController extends Controller
         return Response($address);
     }
 
+    /** clearShortlist */
+    public function clearShortlist(Request $request){
+        $sono = $request->sono;
+        ShortList::where('sono',$sono)->delete();
+        return 1;
+
+    }
 }    

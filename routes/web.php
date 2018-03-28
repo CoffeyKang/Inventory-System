@@ -984,6 +984,7 @@ Route::group(['prefix'=>"api"],function(){
 
 
 
+	Route::get('/clearShortlist','APIController@clearShortlist');
 
 
 

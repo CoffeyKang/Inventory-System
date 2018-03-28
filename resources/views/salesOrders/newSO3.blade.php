@@ -220,8 +220,12 @@ font-weight: 700;
             
             
         </fieldset>
-        <script>
+<script>
     var f =0;
+
+    var sono = "{{$sono}}";
+    
+    
     $('.create').click(function(event){
     //event.preventDefault();
     
@@ -236,7 +240,23 @@ font-weight: 700;
       console.log('this is initial f ' + f);
       if(f==0){
         console.log('this is called');
-        return 'Are you sure you want to leave? Item will lose without saving.';
+        var myConfirm = 'Are you sure you want to leave? Item will lose without saving.';
+        if (myConfirm) {
+            $.ajax({
+                type : 'get',
+                url : "{{url('/api/clearShortlist')}}",
+                data:{'sono':sono},
+                success:function(data){
+                    
+                }
+            });
+            return false;
+        }else{
+            console.log('this is called');
+        }
+      }else{
+        console.log('clearn')
+        
       }}
     );
 </script>
@@ -291,15 +311,15 @@ font-weight: 700;
     url : "{{url('/api/searchItem')}}",
     data:{'item':$value},
     success:function(data){
-    //console.log(data.length);
-    if (data.length>=1) {
-        $('#item_list').show();
-        $('#itemlist').show();
-    }else{
-        $('#itemlist').hide();
-    };
+        //console.log(data.length);
+        if (data.length>=1) {
+            $('#item_list').show();
+            $('#itemlist').show();
+        }else{
+            $('#itemlist').hide();
+        };
 
-    $('#itemlist').html(data);
+        $('#itemlist').html(data);
     }
     });
     }else{
