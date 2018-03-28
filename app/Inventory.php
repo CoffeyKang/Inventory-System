@@ -189,6 +189,17 @@ class Inventory extends Model
 
     public function fillupso(){
         return $this->hasMany('App\FillUpSO','item');
+    }  
+
+
+    public function Sodetails(){
+
+        return $this->hasMany("App\TempSOItem",'item');
+    }
+
+    public function EntireSOShortlist(){
+        
+        return $this->hasMany("App\EntireSOShortlist",'item');
     }
 
     

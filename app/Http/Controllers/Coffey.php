@@ -91,7 +91,10 @@ class Coffey extends Controller
 	 */
 	public function coffey(){
 
-		echo phpinfo();
+		// echo phpinfo();
+		$item = Inventory::find(1000);
+
+		dd($item->Sodetails()->get());
 		
 
 		
@@ -141,16 +144,16 @@ class Coffey extends Controller
 		 * ----------------------------------------------
 		 */
 		
-		$customers = Customer::all();
+		// $customers = Customer::all();
 
-		foreach ($customers as $customer) {
+		// foreach ($customers as $customer) {
 
-			$customer_onorder = SalesOrder::where('custno',$customer->custno)->get()->sum('ordamt');
+		// 	$customer_onorder = SalesOrder::where('custno',$customer->custno)->get()->sum('ordamt');
 
-			$customer->onorder = $customer_onorder;
+		// 	$customer->onorder = $customer_onorder;
 
-			$customer->save();
-		}
+		// 	$customer->save();
+		// }
 		
 		
 		

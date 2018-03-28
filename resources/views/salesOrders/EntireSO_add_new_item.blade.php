@@ -11,15 +11,18 @@ font-weight: 700;
 </style>
  
 <form action="/SO/toEntireShortList" method="get">
+<input type="hidden" name='sono' value="{{$so->sono}}">
+<input type="hidden" name='sotype' value="{{$so->sotype}}">
+<input type="hidden" name='custno' value="{{$customer->custno}}">
+<input type="hidden" name='taxrate' value="{{$so->taxrate}}">
     <div class="col-xs-12">
         {{-- part 1 --}}
         <fieldset>
-            <legend>Sales Order Entry for Customer {{session()->get('header.custno')}}, {{session()->get('header.company')}}. 
-                @if(session()->get('header.sotype')=='B')
+            <legend>Sales Order Entry for Customer {{$customer->custno}}, {{$customer->company}}. 
+                @if($so->sotype =='B')
                    <span style='color:red'>Bid</span> 
-                @elseif(session()->get('header.sotype')=='R') 
+                @elseif($so->sotype=='R') 
                    <span style='color:red'>Return</span> 
-
                 @else
                 @endif
         
@@ -73,7 +76,7 @@ font-weight: 700;
                     </div>
                     <div class="col-xs-2 form-group{{ $errors->has('disc') ? ' has-error' : ' ' }}">
                         <label for="disc">Disc %</label>
-                        <input type="number" step='0.01' class='form-control' value= {{session()->get("header.disc")}} name="disc" id='disc'>
+                        <input type="number" step='0.01' class='form-control' value= {{$so->disc}} name="disc" id='disc'>
                         @if ($errors->has('disc'))
                         <span class="help-block">
                             <strong>{{ $errors->first('disc') }}</strong>
@@ -192,7 +195,7 @@ font-weight: 700;
                             <th colspan='4'></th>
                             <th><a href="/SO/UpdateSODetails_edit?custno={{session()->get('header.custno')}}&sono={{$sono}}" class='btn btn-primary create' style='min-width:200px;'>Edit Order</a></th>
                             <th>
-                                <a href="/SO/UpdateSODetails_Finish?sono={{$sono}}&&custno={{session()->get('header.custno')}}" class="create btn btn-primary" style='min-width:200px;'>Finish Edit</a>
+                                <a href="/SO/UpdateSODetails_Finish_add?sono={{$sono}}&&custno={{session()->get('header.custno')}}" class="create btn btn-primary" style='min-width:200px;'>Finish Edit</a>
                             </th>
                         </tr>
                     </tbody>
@@ -202,25 +205,45 @@ font-weight: 700;
             
         </fieldset>
         <script>
-    var f =0;
-    $('.create').click(function(event){
-    //event.preventDefault();
-    
-    f =1;
-    console.log(123);
-    console.log(f+' this is f');
-
-  });
-  
-    console.log(f+'this is anthoer f')
-    $(window).bind('beforeunload', function(){
-      console.log('this is initial f ' + f);
-      if(f==0){
-        console.log('this is called');
-        return 'Are you sure you want to leave? Item will lose without saving.';
-      }}
-    );
-</script>
+            var f =0;
+        
+            var sono = "{{$so->sono}}";
+            
+            
+            $('.create').click(function(event){
+            //event.preventDefault();
+            
+            f =1;
+            console.log(123);
+            console.log(f+' this is f');
+        
+          });
+          
+            console.log(f+'this is anthoer f')
+            $(window).bind('beforeunload', function(){
+              console.log('this is initial f ' + f);
+              if(f==0){
+                console.log('this is called');
+                var myConfirm = 'Are you sure you want to leave? Item will lose without saving.';
+                if (myConfirm) {
+                    $.ajax({
+                        type : 'get',
+                        url : "{{url('/api/clearShortlist_add')}}",
+                        data:{'sono':sono},
+                        success:function(data){
+                            
+                        }
+                    });
+                    return false;
+                }else{
+                    console.log('this is called');
+                }
+              }else{
+                console.log('clearn')
+                
+              }}
+            );
+        </script>
         
     </div>
 
@@ -254,7 +277,7 @@ font-weight: 700;
 
 
     <script>
-    var pricecode = String("{{session()->get('header.pricecode')}}");
+    var pricecode = String("{{$customer->pricecode}}");
     //console.log(pricecode);
     $("#item").on('keyup',function(){
     $value = $(this).val();
@@ -377,14 +400,7 @@ font-weight: 700;
         console.log('-------------------');
         $short_item = $(this)
         console.log($qty);
-        // $.ajax({
-        //     type:'get',
-        //     url:'/api/shortlistChangeQty',
-        //     data:{'qty':$qty},
-        //     success:function(data){
-        //         console.log(data);
-        //     }
-        // });
+        
     });
     </script>
 

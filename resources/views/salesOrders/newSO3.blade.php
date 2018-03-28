@@ -9,6 +9,8 @@ font-size: 16px;
 font-weight: 700;
 }
 </style>
+
+
 <form action="/SO/toShortList" method="get">
     <div class="col-xs-12">
         {{-- part 1 --}}

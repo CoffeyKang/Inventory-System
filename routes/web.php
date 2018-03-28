@@ -214,6 +214,9 @@ Route::group(['prefix'=>"SO",'middleware' => 'auth'],function(){
 	//finish UpdatePODetails_Finish
 	Route::get('UpdateSODetails_Finish','SalesOrdersController@UpdateSODetails_Finish');
 
+	//finish UpdatePODetails_Finish
+	Route::get('UpdateSODetails_Finish_add','SalesOrdersController@UpdateSODetails_Finish_add');
+
 	//EntireSO_add_new_item
 	Route::get('EntireSO_add_new_item','SalesOrdersController@EntireSO_add_new_item');
 	//toEntireShortList
@@ -985,6 +988,8 @@ Route::group(['prefix'=>"api"],function(){
 
 
 	Route::get('/clearShortlist','APIController@clearShortlist');
+
+	Route::get('/clearShortlist_add','APIController@clearShortlist_add');
 
 
 

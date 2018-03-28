@@ -2670,6 +2670,90 @@ use App\FillUpSO;
 		->save(public_path("PDF/customer_report/customer_report".date('Y-m-d').".PDF"));	
 	}
 
+	/**
+		 * ----------------------------------------------
+		 * ----------------------------------------------
+		 * -----------save------------------------------
+		 * ---------------reset customer onorder-------------------------------
+		 * ----------------------------------------------
+		 */
+
+	function resetCustomerOrder(){
+		
+		$customers = Customer::all();
+
+		foreach ($customers as $customer) {
+
+			$customer_onorder = SalesOrder::where('custno',$customer->custno)->get()->sum('ordamt');
+
+			$customer->onorder = $customer_onorder;
+
+			$customer->save();
+		}
+	}
+
+	/** update one customer onorder */
+
+	function updateCustomerOrder($custno){
+		
+		$customer_onorder = SalesOrder::where('custno',$custno)->get()->sum('ordamt');
+
+		$customers = Customer::find($custno);
+
+		$customers->onorder = $customer_onorder;
+
+		$customers->save();
+		
+	}
+
+	/**
+		 * ----------------------------------------------
+		 * ----------------------------------------------
+		 * -----------save------------------------------
+		 * ---------------reset customer onorder-------------------------------
+		 * ----------------------------------------------
+		 */
+
+	function updateSalesOrder($sono){
+		
+		$SO = SalesOrder::find($sono);
+		$taxrate = $SO->taxrate/100;
+		$sotran = $SO->details()->get();
+
+		$tax = 0;
+
+		foreach ($sotran as $item) {
+			if(check_taxable($item->item)){
+				$tax += $item->extprice * $taxrate;  
+			}else{
+				$tax += 0;
+			}
+		}
+		
+
+		$SO->ordamt = $SO->details()->get()->sum('extprice');
+
+		$SO->tax = $tax;
+
+		$SO->lastmodified = date('Y-m-d');
+
+		$SO->save();
+	}
+
+
+	function updateItemAloc($item){
+
+		$inventory = Inventory::find($item);
+
+
+		$inventory->aloc = $inventory->Sodetails()->get()->sum('qtyord');
+
+		
+
+		$inventory->save();
+
+	}
+
 	   	
 
 

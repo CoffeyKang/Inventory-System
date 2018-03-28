@@ -30,6 +30,8 @@ use App\GLA_Address;
 
 use App\ShortList;
 
+use App\EntireSOShortlist;
+
 class APIController extends Controller
 {
     //search all customers by customer number
@@ -963,6 +965,15 @@ class APIController extends Controller
     public function clearShortlist(Request $request){
         $sono = $request->sono;
         ShortList::where('sono',$sono)->delete();
+        return 1;
+
+    }
+
+    /** clearShortlist */
+    public function clearShortlist_add(Request $request){
+        $sono = $request->sono;
+
+        EntireSOShortlist::where('sono',$sono)->delete();
         return 1;
 
     }

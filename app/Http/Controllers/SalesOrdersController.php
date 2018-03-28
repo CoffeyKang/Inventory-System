@@ -36,6 +36,8 @@ use Auth;
 
 use App\FillUpSO;
 
+use App\EntireSOShortlist;
+
 class SalesOrdersController extends Controller
 {
     //SO home page
@@ -987,6 +989,7 @@ class SalesOrdersController extends Controller
 
     public function updateOrder(Request $request){
 
+        
         $item = $request->item;
 
         $custno = $request->custno;
@@ -995,36 +998,47 @@ class SalesOrdersController extends Controller
 
         $disc = $request->disc;
 
-        $item = ShortList::where('custno',$custno)->where('sono',$sono)->where('item',$item)->first();
+        $item_price = $request->item_price;
 
-        $item_price = $request->unitPrice;
+        
 
 
-        $taxrate = session()->get('header.taxrate')/100;
 
+        $item_entity = TempSOItem::where('custno',$custno)->where('sono',$sono)->where('item',$item)->first();
+
+        
+
+        
 
         /**
          * unit price change
          */
-        $item->unitPrice = $request->unitPrice;
+        $item_entity->price = $item_price;
 
-        $item->qty = $request->qty;
+        $item_entity->qtyord = $request->qty;
 
-        //$item->tax = $item_tax*$request->qty;
+        $item_entity->disc = $request->disc;
 
-        $item->disc = $request->disc;
-
-        $item->extPrice = $item_price*$request->qty*(1-$request->disc/100);
-
-        if(check_taxable($item->item)){
-            $item->tax = $item->extPrice * $taxrate;  
-        }else{
-            $item->tax = 0;
-        }
+        $item_entity->extprice = $item_price*$request->qty*(1-$request->disc/100);
 
         
 
-        $item->save();
+        
+
+        $item_entity->save();
+
+        /** update inventory */
+        updateItemAloc($item);
+        /** update so mast */
+        updateSalesOrder($sono);
+
+        updateCustomerOrder($custno);
+
+        /** renew pdf */
+
+        delete_SO_PDF($sono);
+
+        print_SO($sono);
 
         return Redirect::back();
     }
@@ -1036,9 +1050,22 @@ class SalesOrdersController extends Controller
 
         $item = $_GET['item'];
 
-        $deleteItem = ShortList::where('custno',$custno)->where('sono',$sono)->where('item',$item)->first();
+        $deleteItem = TempSOItem::where('custno',$custno)->where('sono',$sono)->where('item',$item)->first();
 
         $deleteItem->delete();
+
+        /** update inventory */
+        updateItemAloc($item);
+        /** update so mast */
+        updateSalesOrder($sono);
+
+        updateCustomerOrder($custno);
+
+        /** renew pdf */
+
+        delete_SO_PDF($sono);
+
+        print_SO($sono);        
 
         return Redirect::back();
     }
@@ -1152,93 +1179,6 @@ class SalesOrdersController extends Controller
 
         $custno = $so_master->custno;
 
-        /**
-         * update customer
-         */
-        $customer_update = Customer::where('custno',$custno)->first();
-
-        $customer_update->onorder -= $so_master->ordamt;
-
-        $customer_update->save();
-
-        /**
-         * put into session ralated to somast and customer
-         */
-        $request->session()->put('header.sono',$sono);
-
-        $request->session()->put('header.pricecode',$customer_update->pricecode);
-
-        $request->session()->put('header.custno',$customer_update->custno);
-
-        $request->session()->put('header.sotype',$so_master->sotype);
-
-        $request->session()->put('header.taxrate',$so_master->taxrate);
-
-        /**
-         * update inventory
-         */
-
-        $entire_so_details = TempSOItem::where('sono',$sono)->get();
-
-        foreach ($entire_so_details as $item) {
-            //set session
-            
-            $request->session()->put('header.disc',$item->disc);
-            
-            // $request->session()->put('header.taxrate',$item->taxrate);
-            
-            $request->session()->put('header.ordate',$item->ordate);
-            
-            $request->session()->put('header.ordate',$item->ordate);
-            
-            $request->session()->put('header.terr',$item->terr);
-            
-            $request->session()->put('header.salesmn',$item->salesmn);
-            
-            $so_shortlist = new ShortList;
-            
-            $so_shortlist->item = $item->item;
-            
-            $so_shortlist->descrip = Inventory::where('item',$item->item)->first()->descrip;
-            
-            $so_shortlist->sono = $sono;
-            
-            $so_shortlist->disc = $item->disc;
-            
-            $so_shortlist->qty = $item->qtyord;
-            
-            $so_shortlist->extPrice = floatval($item->price * $item->qtyord* (1-$item->disc/100));
-
-            if (check_taxable($item->item)) {
-                $so_shortlist->tax = $so_shortlist->extPrice*($item->taxrate/100);
-            }else{
-                 $so_shortlist->tax =0;
-            }
-            
-            
-            $so_shortlist->custno = $custno;
-            
-            $so_shortlist->unitPrice = $item->price;
-
-            $so_shortlist->userid = Auth::user()->id;
-            
-            $so_shortlist->save();
-            
-            if ($so_master->sotype != 'B') {
-
-            
-            $inventory_item = Inventory::where('item',$item->item)->first();
-            
-            $inventory_item->aloc = $inventory_item->aloc - $item->qtyord;
-            //$inventory_item->onhand = $inventory_item->onhand + $item->qtyshp;
-            $inventory_item->save();
-            
-        }else{
-            
-        }
-        TempSOItem::where('sono',$sono)->where('item',$item->item)->delete();
-            
-        }
         
         return view('salesOrders.editEntireSODetails',['sono'=>$sono,'custno'=>$custno]);
 
@@ -1255,36 +1195,12 @@ class SalesOrdersController extends Controller
 
         $custno = $_GET['custno'];
 
-        $shortlists = ShortList::where('sono', $sono)
+        $SO = TempSOItem::where('sono', $sono)
          ->where('custno',$custno)->get();
 
-         $subtotal = 0;
-
-         $taxtotal = 0;
-
-        foreach ($shortlists as $short) {
-
-            $subtotal += floatval($short->extPrice);
-            
-            
-            $taxtotal += floatval($short->tax);
-
-        }
-
-        $total = $subtotal;
-
-        $so_master = SalesOrder::find($sono);
-
-        $so_master->ordamt = $subtotal;
-
-        $so_master->tax = $taxtotal;
-
-        $so_master->lastmodified = date("Y-m-d");
-
-        $so_master->save();
 
 
-        return view('salesOrders.UpdateSODetails_edit',['shortlists'=>$shortlists,'sono'=>$sono,'custno'=>$custno]);
+        return view('salesOrders.UpdateSODetails_edit',['shortlists'=>$SO,'sono'=>$sono,'custno'=>$custno]);
     }
 
     //update address
@@ -1373,51 +1289,28 @@ class SalesOrdersController extends Controller
     public function UpdateSODetails_Finish(Request $request){
         
         $sono = $_GET['sono'];
-
-        $custno =$_GET['custno'];
-
-        $shortlist_tempSO = ShortList::where('sono',$sono)->where('custno',$custno)->orderBy('id','asc')->get();
-
-        /**
-         * uopdate somast
-         */
-
-        $total_shortlist = ShortList::where('sono',$sono)->where('custno',$custno)->select('extPrice','tax')->get();
-
-        $extprice_total = $total_shortlist->sum('extPrice');
-
-        $tax_total = $total_shortlist->sum('tax');
-
-        $somast = SalesOrder::where('sono',$sono)->where('custno',$custno)->first();
-
-        $somast->ordamt = $extprice_total;
-
-        $somast->tax = $tax_total;
-
-        $somast->lastmodified = date("Y-m-d");
-
-        $somast->save();
-
-        /**
-         * update customer
-         */
-        $customer_update = Customer::where('custno',$custno)->first();
-
-        $customer_update->onorder = $customer_update->onorder + $extprice_total;
-
-        $customer_update->save();
+       
+        return view('salesOrders.finishSO', compact('sono'));
 
 
+    }
+
+    public function UpdateSODetails_Finish_add(Request $request){
         
-        foreach ($shortlist_tempSO as $item) {
-            
+        $sono = $_GET['sono'];
+
+        $so = SalesOrder::find($sono);
+
+        $customer = $so->custno;
+
+        $entireShort = EntireSOShortlist::where('sono',$sono)->get();
+
+        foreach ($entireShort as $item) {
             $tempSO = new TempSOItem;
-
-            $inventory_item = Inventory::where('item', $item->item)->first();
-
+            
             $tempSO->sono = $sono;
-
-            $tempSO->custno = $custno;
+            
+            $tempSO->custno = $item->custno;
 
             $tempSO->item = $item->item;
 
@@ -1426,73 +1319,69 @@ class SalesOrdersController extends Controller
             $tempSO->disc = $item->disc;
 
             if (check_taxable($item->item)) {
-                $tempSO->taxrate = session()->get('header.taxrate');
+                
+                $tempSO->taxrate = $so->taxrate;
+
+                $tempSO->taxable = 'Y';
+                
+                
             }else{
-                $tempSO->taxrate = 0;
+
+                 $tempSO->taxrate = 0;
             }
 
-            
-
-            $tempSO->cost = $inventory_item->cost;
+            $tempSO->cost = $item->iteminfo['cost'];
 
             $tempSO->price = $item->unitPrice;
 
-            $tempSO->qtyord = $item->qty;
+            if ($so->sotype=='R') {
+               
+               $tempSO->qtyord = 0 - $item->qty;
 
-            $tempSO->extprice = $item->extPrice;
+               $tempSO->extprice =0 - $item->extPrice;
+            }else{
+               $tempSO->qtyord = $item->qty; 
 
-            $tempSO->ordate = session()->get('header.ordate');
+               $tempSO->extprice = $item->extPrice;
+            }
 
-            $tempSO->rqdate = session()->get('header.ordate');
+            $tempSO->ordate = $so->ordate;
 
-            $tempSO->terr = session()->get('header.terr');
+            $tempSO->rqdate = $so->ordate;
 
-            $tempSO->salesmn = session()->get('header.salesmn');
+            $tempSO->terr = $so->terr;
 
-            $tempSO->class = $inventory_item->class;
+            $tempSO->salesmn = $so->salesmn;
 
-            $tempSO->seq = $inventory_item->seq;
+            $tempSO->class = $item->iteminfo['class'];
 
-            $tempSO->disc = $item->disc;
+            $tempSO->seq = $item->iteminfo['seq'];
 
-            $tempSO->make = $inventory_item->make;
+            $tempSO->make = $item->iteminfo['make'];
 
             $tempSO->locid = 1;
 
             $tempSO->save();
 
-            if (SalesOrder::where('sono',$sono)->first()->sotype != "B") {
-                
-                $inventory_item->aloc = $inventory_item->aloc + $item->qty;
+            updateItemAloc($item->item);
+        }
 
-                $inventory_item->save();
-            }else{
+        /** update inventory */
+        
+        /** update so mast */
+        updateSalesOrder($sono);
 
-            }
+        updateCustomerOrder($customer);
 
-            
-
-            }
-
-
-        $deleteShort = ShortList::where('custno',$custno)->where('sono',$sono)->delete();
-
-
-        $entire_so_address = SoAddress::where('sono',$sono)->first();
-
-        $entire_so_mast = SalesOrder::where('sono',$sono)->first();
-
-        $entire_so_details = TempSOItem::where('sono',$sono)->paginate(7);
-
-        $entire_so_cust = Customer::where('custno',$entire_so_mast->custno)->first();
-
-        //$request->session()->forget('header');
+        /** renew pdf */
 
         delete_SO_PDF($sono);
 
         print_SO($sono);
 
 
+
+        
        
         return view('salesOrders.finishSO', compact('sono'));
 
@@ -1500,26 +1389,13 @@ class SalesOrdersController extends Controller
     }
     public function EntireSO_add_new_item(){
 
-        $newSo = session()->get('header.sono');
+        $sono = $_GET['sono'];
 
-        $shortlists = ShortList::where('sono', $newSo)
-        ->where('custno',session()->get('header.custno'))->orderBy('id','desc')->get();
+        $so = SalesOrder::find($sono);
 
+        $customer = Customer::find($_GET['custno']);
         
-
-        $subtotal = 0;
-
-        $tax_total = 0;
-
-        foreach ($shortlists as $short) {
-            $subtotal += $short->extPrice;
-            $tax_total += $short->tax;
-
-        }
-        //tax not included
-        $total = $subtotal+$tax_total;
-        
-        return view('salesOrders.EntireSO_add_new_item', ['shortlists'=>$shortlists,'total'=>$total,'sono'=>$newSo,'tax_total'=>$tax_total,'subtotal'=>$subtotal]);
+        return view('salesOrders.EntireSO_add_new_item', ['so'=>$so,'customer'=>$customer]);
     }
     /**
      * 
@@ -1534,15 +1410,62 @@ class SalesOrdersController extends Controller
             'disc'=>'required',
             ]);
         
-        $newSo =session()->get('header.sono');
+        $newSo = $request->sono;
 
-        $sotype = session()->get('header.sotype');
+        $sotype = $request->sotype;
 
-        $shortlist = ShortList::where('custno',session()->get('header.custno'))
+        $check = EntireSOShortlist::where('custno',$request->custno)
                     ->where('sono',$newSo)->where('item',$request->item)->first();
-        if (!$shortlist) {
+        
+        if ($check) {
+        
+            /**
+             * add item to so , the item is already in the so
+             * @var [type]
+             */
+            if ($sotype=="R") {
+                
+                $newQTY = $check->qty - $request->qty;    
+
+                $check->extPrice = ($request->itemPrice * $newQTY)*(1-($request->disc/100));
+
+                if (check_taxable($request->item)) {
+                    $check->tax = $check->extPrice*($request->taxrate/100);
+                }else{
+                    $check->tax =0;
+                }
+
+                $check->qty=$newQTY;
+
+            }else{
+
+
+                $newQTY = $check->qty + $request->qty;   
+
+                $check->extPrice = ($request->itemPrice * $newQTY)*(1-($request->disc/100));    
+                        
+                if (check_taxable($request->item)) {
+                    
+                    $check->tax = $check->extPrice*($request->taxrate/100);
+                
+                }else{
+                    
+                    $check->tax =0;
+                }
+
+               
+
+                $check->qty=$newQTY;
+            }
             
-            $shortlist = new ShortList;
+            $check->userid = Auth::user()->id;
+            $check->save();
+
+
+        }else{
+
+        
+            $shortlist = new EntireSOShortlist;
 
             $shortlist->item = $request->item;
 
@@ -1557,7 +1480,7 @@ class SalesOrdersController extends Controller
                 $shortlist->extPrice =0- ($request->itemPrice * $request->qty)*(1-($request->disc/100));
 
                 if (check_taxable($request->item)) {
-                    $shortlist->tax = $shortlist->extPrice*(session()->get('header.taxrate')/100);
+                    $shortlist->tax = $shortlist->extPrice*($request->taxrate/100);
                 }else{
                     $shortlist->tax =0;
                 }
@@ -1571,15 +1494,14 @@ class SalesOrdersController extends Controller
 
                 if (check_taxable($request->item)) {
                     
-                    $shortlist->tax = $shortlist->extPrice*(session()->get('header.taxrate')/100);
+                    $shortlist->tax = $shortlist->extPrice*($request->taxrate/100);
                 }else{
                     
                     $shortlist->tax =0;
                 }
             }
             
-
-            $shortlist->custno = session()->get('header.custno');
+            $shortlist->custno = $request->custno;
 
             $shortlist->unitPrice = $request->itemPrice;
 
@@ -1588,57 +1510,10 @@ class SalesOrdersController extends Controller
             $shortlist->userid = Auth::user()->id;
 
             $shortlist->save();
-        }else{
 
-            /**
-             * add item to so , the item is already in the so
-             * @var [type]
-             */
-            if ($sotype=="R") {
-                
-                $newQTY = $shortlist->qty - $request->qty;    
-
-                $shortlist->extPrice = ($request->itemPrice * $newQTY)*(1-($request->disc/100));
-
-                if (check_taxable($request->item)) {
-                    $shortlist->tax = $shortlist->extPrice*(session()->get('header.taxrate')/100);
-                }else{
-                    $shortlist->tax =0;
-                }
-
-                $shortlist->qty=$newQTY;
-
-            }else{
-
-
-                $newQTY = $shortlist->qty + $request->qty;   
-
-                $shortlist->extPrice = ($request->itemPrice * $newQTY)*(1-($request->disc/100));    
-                        
-                if (check_taxable($request->item)) {
-                    
-                    $shortlist->tax = $shortlist->extPrice*(session()->get('header.taxrate')/100);
-                
-                }else{
-                    
-                    $shortlist->tax =0;
-                }
-
-               
-
-                $shortlist->qty=$newQTY;
-            }
-            
-            $shortlist->userid = Auth::user()->id;
-            $shortlist->save();
         }
-        
-        
 
-        $shortlists = ShortList::where('sono', $newSo)
-        ->where('custno',session()->get('header.custno'))->orderBy('id','desc')->get();
-
-        
+        $shortlists = EntireSOShortlist::where('sono',$newSo)->orderBy('id','desc')->get();
 
         $subtotal = 0;
 
@@ -1649,10 +1524,16 @@ class SalesOrdersController extends Controller
             $tax_total += $short->tax;
 
         }
-        //tax not included
+            //tax not included
         $total = $subtotal+$tax_total;
+
+        $so = SalesOrder::find($newSo);
+
+        $customer = Customer::find($request->custno);
         
-        return view('salesOrders.EntireSO_add_new_item', ['shortlists'=>$shortlists,'total'=>$total,'sono'=>$newSo,'tax_total'=>$tax_total,'subtotal'=>$subtotal]);
+        return view('salesOrders.EntireSO_add_new_item', ['shortlists'=>$shortlists,'total'=>$total,
+        'sono'=>$newSo,'tax_total'=>$tax_total,'subtotal'=>$subtotal,
+        'so'=>$so,'customer'=>$customer]);
 
     }
 

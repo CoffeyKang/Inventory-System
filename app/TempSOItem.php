@@ -29,4 +29,5 @@ class TempSOItem extends Model
     public function custinfo(){
     	return $this->belongsTo('App\Customer','custno');
     }
-}
+}   
+
