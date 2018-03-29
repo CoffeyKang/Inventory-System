@@ -2684,7 +2684,7 @@ use App\FillUpSO;
 
 		foreach ($customers as $customer) {
 
-			$customer_onorder = SalesOrder::where('custno',$customer->custno)->get()->sum('ordamt');
+			$customer_onorder = SalesOrder::where('custno',$customer->custno)->where('sotype','!=','B')->get()->sum('ordamt');
 
 			$customer->onorder = $customer_onorder;
 
@@ -2696,7 +2696,7 @@ use App\FillUpSO;
 
 	function updateCustomerOrder($custno){
 		
-		$customer_onorder = SalesOrder::where('custno',$custno)->get()->sum('ordamt');
+		$customer_onorder = SalesOrder::where('sotype','!=','B')->where('custno',$custno)->get()->sum('ordamt');
 
 		$customers = Customer::find($custno);
 
@@ -2746,7 +2746,26 @@ use App\FillUpSO;
 		$inventory = Inventory::find($item);
 
 
-		$inventory->aloc = $inventory->Sodetails()->get()->sum('qtyord');
+		$aloc = $inventory->Sodetails()->get();
+
+
+		$number = 0;
+		foreach ($aloc as $a) {
+
+			$sotype = $a->somast['sotype'];
+
+
+
+			
+			if ($sotype!="B") {
+				$number += $a->qtyord;
+			}else{
+				
+			}
+		}
+
+
+		$inventory->aloc = $number;
 
 		
 

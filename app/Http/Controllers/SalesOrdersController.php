@@ -1043,6 +1043,117 @@ class SalesOrdersController extends Controller
         return Redirect::back();
     }
 
+    public function updateOrder_shortlist(Request $request){
+
+        
+        $custno = $request->custno;
+        $sono = $request->sono;
+        $item = $request->item;
+        $qty = $request->qty;
+        $price = $request->unitPrice;
+        $tax = $request->tax;
+        $disc = $request->disc;
+
+        $customer = Customer::find($custno);
+
+        $taxrate = $customer->tax/100;
+
+
+        
+        $entity = Shortlist::where('custno',$custno)->where('sono',$sono)->where('item',$item)->first();
+
+        $entity->qty = $qty;
+
+        $entity->unitPrice = $price;
+
+        $entity->extPrice = $qty * $price*(1-$disc/100);
+
+        $entity->tax =  $qty * $price * $taxrate * (1-$disc/100);
+
+        $entity->save();
+            
+
+
+
+        
+        return Redirect::back();
+    }
+
+    public function deleteOrderItem_shortlist(){
+        
+        $custno = $_GET['custno'];
+
+        $sono = $_GET['sono'];
+
+        $item = $_GET['item'];
+
+        $shortlist = Shortlist::where('custno',$custno)->where('sono',$sono)->where('item',$item)->first();
+
+        $shortlist->delete();
+
+        return Redirect::back();
+
+
+    }
+
+    public function deleteOrderItem_add(){
+        
+        $custno = $_GET['custno'];
+
+        $sono = $_GET['sono'];
+
+        $item = $_GET['item'];
+
+        $shortlist = EntireSOShortlist::where('custno',$custno)->where('sono',$sono)->where('item',$item)->first();
+
+        $shortlist->delete();
+
+        return Redirect::back();
+
+
+    }
+
+
+    public function updateOrder_add(Request $request){
+        
+        $custno = $request->custno;
+        $sono = $request->sono;
+        $item = $request->item;
+        $qty = $request->qty;
+        $price = $request->unitPrice;
+        $tax = $request->tax;
+        $disc = $request->disc;
+
+        $customer = Customer::find($custno);
+
+        $taxrate = $customer->tax/100;
+
+
+        
+        $entity = EntireSOShortlist::where('custno',$custno)->where('sono',$sono)->where('item',$item)->first();
+
+        $entity->qty = $qty;
+
+        $entity->unitPrice = $price;
+
+        $entity->extPrice = $qty * $price*(1-$disc/100);
+
+        $entity->tax =  $qty * $price * $taxrate * (1-$disc/100);
+
+        $entity->save();
+
+        
+
+        
+
+
+        
+
+        return Redirect::back();
+    }
+
+    
+
     public function deleteOrderItem(){
         $custno = $_GET['custno'];
 
@@ -1201,6 +1312,24 @@ class SalesOrdersController extends Controller
 
 
         return view('salesOrders.UpdateSODetails_edit',['shortlists'=>$SO,'sono'=>$sono,'custno'=>$custno]);
+    }
+
+    /**
+     * UpdateSODetails_edit
+     */
+    public function UpdateSODetails_edit_add(Request $request){
+
+
+        $sono = $_GET['sono'];
+
+        $custno = $_GET['custno'];
+
+        $SO = EntireSOShortlist::where('sono', $sono)
+         ->where('custno',$custno)->get();
+
+
+
+        return view('salesOrders.UpdateSODetails_edit_add',['shortlists'=>$SO,'sono'=>$sono,'custno'=>$custno]);
     }
 
     //update address
@@ -1364,6 +1493,9 @@ class SalesOrdersController extends Controller
             $tempSO->save();
 
             updateItemAloc($item->item);
+
+
+            $item->delete();
         }
 
         /** update inventory */
@@ -1395,7 +1527,24 @@ class SalesOrdersController extends Controller
 
         $customer = Customer::find($_GET['custno']);
         
-        return view('salesOrders.EntireSO_add_new_item', ['so'=>$so,'customer'=>$customer]);
+        $shortlists = EntireSOShortlist::where('sono',$sono)->orderBy('id','desc')->get();
+
+        $subtotal = 0;
+
+        $tax_total = 0;
+
+        foreach ($shortlists as $short) {
+            $subtotal += $short->extPrice;
+            $tax_total += $short->tax;
+
+        }
+            //tax not included
+        $total = $subtotal+$tax_total;
+
+        
+        return view('salesOrders.EntireSO_add_new_item', ['shortlists'=>$shortlists,'total'=>$total,
+        'sono'=>$sono,'tax_total'=>$tax_total,'subtotal'=>$subtotal,
+        'so'=>$so,'customer'=>$customer]);
     }
     /**
      * 

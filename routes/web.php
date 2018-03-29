@@ -193,8 +193,20 @@ Route::group(['prefix'=>"SO",'middleware' => 'auth'],function(){
 	//update order
 	Route::get('/updateOrder','SalesOrdersController@updateOrder');
 
+	//update order
+	Route::get('/updateOrder_shortlist','SalesOrdersController@updateOrder_shortlist');
+
+	//update order
+	Route::get('/updateOrder_add','SalesOrdersController@updateOrder_add');
+
 	//delete order item
 	Route::get('/deleteOrderItem','SalesOrdersController@deleteOrderItem');
+
+	/**deleteOrderItem_shortlist */
+	Route::get('/deleteOrderItem_shortlist','SalesOrdersController@deleteOrderItem_shortlist');
+
+	/**deleteOrderItem_shortlist */
+	Route::get('/deleteOrderItem_add','SalesOrdersController@deleteOrderItem_add');
 
 	//create New Ship Address
 	Route::get('createShipAddress','SalesOrdersController@createShipAddress');
@@ -213,6 +225,7 @@ Route::group(['prefix'=>"SO",'middleware' => 'auth'],function(){
 
 	//finish UpdatePODetails_Finish
 	Route::get('UpdateSODetails_Finish','SalesOrdersController@UpdateSODetails_Finish');
+	
 
 	//finish UpdatePODetails_Finish
 	Route::get('UpdateSODetails_Finish_add','SalesOrdersController@UpdateSODetails_Finish_add');
@@ -228,6 +241,11 @@ Route::group(['prefix'=>"SO",'middleware' => 'auth'],function(){
 	 * UpdateSODetails_edit
 	 */
 	Route::get('UpdateSODetails_edit','SalesOrdersController@UpdateSODetails_edit');
+
+	/**
+	 * UpdateSODetails_edit
+	 */
+	Route::get('UpdateSODetails_edit_add','SalesOrdersController@UpdateSODetails_edit_add');
 
 	/**
 	 * voidEntire SO
@@ -449,6 +467,8 @@ Route::group(['prefix'=>"PO",'middleware' => 'auth'],function(){
 	Route::get('/editOrder','PurchaseOrdersController@editOrder');
 	//update order
 	Route::get('/updateOrder','PurchaseOrdersController@updateOrder');
+
+	
 
 	//delete order item
 	Route::get('deleteOrderItem','PurchaseOrdersController@deleteOrderItem');

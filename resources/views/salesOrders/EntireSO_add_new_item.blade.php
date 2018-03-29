@@ -104,8 +104,6 @@ font-weight: 700;
                     </div>
 
                     <div class="col-xs-4" style='text-align:right'>
-                        
-                        
                         <button type='sbumit' class='btn btn-primary form-control create' style='min-width:186px; '>Order</button>
                     </div>
                 </div>
@@ -193,9 +191,9 @@ font-weight: 700;
                             $sono =0;
                             } ?>
                             <th colspan='4'></th>
-                            <th><a href="/SO/UpdateSODetails_edit?custno={{session()->get('header.custno')}}&sono={{$sono}}" class='btn btn-primary create' style='min-width:200px;'>Edit Order</a></th>
+                            <th><a href="/SO/UpdateSODetails_edit_add?custno={{$customer->custno}}&sono={{$sono}}" class='btn btn-warning create' style='min-width:200px;'>Edit Order</a></th>
                             <th>
-                                <a href="/SO/UpdateSODetails_Finish_add?sono={{$sono}}&&custno={{session()->get('header.custno')}}" class="create btn btn-primary" style='min-width:200px;'>Finish Edit</a>
+                                <a href="/SO/UpdateSODetails_Finish_add?sono={{$sono}}&&custno={{$customer->custno}}" class="create btn btn-success" style='min-width:200px;'>Finish Edit</a>
                             </th>
                         </tr>
                     </tbody>

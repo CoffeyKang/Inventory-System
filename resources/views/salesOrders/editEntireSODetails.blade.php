@@ -11,11 +11,11 @@
         <div class="col-xs-12" style='text-align:center; padding: 100px 0;'>
             {{-- from =1 means come from edit entire order --}}
 
-            <a href="/SO/EntireSO_add_new_item?sono={{$sono}}&&custno={{$custno}}" class="btn btn-default create" style='min-width:200px;'>Add New Item</a>
+            <a href="/SO/EntireSO_add_new_item?sono={{$sono}}&custno={{$custno}}" class="btn btn-default create" style='min-width:200px;'>Add New Item</a>
             
-            <a href="/SO/UpdateSODetails_edit?sono={{$sono}}&&custno={{$custno}}" class="btn btn-warning create" style='min-width:200px;'>Edit Details</a>
+            <a href="/SO/UpdateSODetails_edit?sono={{$sono}}&custno={{$custno}}" class="btn btn-warning create" style='min-width:200px;'>Edit Details</a>
 
-            <a href="/SO/UpdateSODetails_Finish?sono={{$sono}}&&custno={{$custno}}" class="btn btn-success create" style='min-width:200px;'>Finish Edit</a>
+            <a href="/SO/UpdateSODetails_Finish?sono={{$sono}}&custno={{$custno}}" class="btn btn-success create" style='min-width:200px;'>Finish Edit</a>
         </div>
     </fieldset>
 
