@@ -1425,6 +1425,7 @@ class SalesOrdersController extends Controller
     }
 
     public function UpdateSODetails_Finish_add(Request $request){
+
         
         $sono = $_GET['sono'];
 
@@ -1435,62 +1436,108 @@ class SalesOrdersController extends Controller
         $entireShort = EntireSOShortlist::where('sono',$sono)->get();
 
         foreach ($entireShort as $item) {
-            $tempSO = new TempSOItem;
-            
-            $tempSO->sono = $sono;
-            
-            $tempSO->custno = $item->custno;
 
-            $tempSO->item = $item->item;
+            //check if the item is in the totran table
+            $check_item = TempSOItem::where('sono',$sono)->where('item',$item->item)->first();
 
-            $tempSO->descrip = $item->descrip;
+            if ($check_item) {
 
-            $tempSO->disc = $item->disc;
+                $check_item->disc = $item->disc;
 
-            if (check_taxable($item->item)) {
+                if (check_taxable($item->item)) {
+                    
+                    $check_item->taxrate = $so->taxrate;
+
+                    $check_item->taxable = 'Y';
+                    
+                    
+                }else{
+
+                    $check_item->taxrate = 0;
+                }
+
+                $check_item->price = $item->unitPrice;
+
+                if ($so->sotype=='R') {
                 
-                $tempSO->taxrate = $so->taxrate;
+                $check_item->qtyord += (0 - $item->qty);
 
-                $tempSO->taxable = 'Y';
-                
-                
+                $check_item->extprice += (0 - $item->extPrice);
+                }else{
+                $check_item->qtyord += $item->qty; 
+
+                $check_item->extprice += $item->extPrice;
+                }
+
+                $check_item->save();
             }else{
 
-                 $tempSO->taxrate = 0;
+                $tempSO = new TempSOItem;
+            
+                $tempSO->sono = $sono;
+                
+                $tempSO->custno = $item->custno;
+
+                $tempSO->item = $item->item;
+
+                $tempSO->descrip = $item->descrip;
+
+                $tempSO->disc = $item->disc;
+
+                if (check_taxable($item->item)) {
+                    
+                    $tempSO->taxrate = $so->taxrate;
+
+                    $tempSO->taxable = 'Y';
+                    
+                    
+                }else{
+
+                    $tempSO->taxrate = 0;
+                }
+
+                $tempSO->cost = $item->iteminfo['cost'];
+
+                $tempSO->price = $item->unitPrice;
+
+                if ($so->sotype=='R') {
+                
+                $tempSO->qtyord = 0 - $item->qty;
+
+                $tempSO->extprice =0 - $item->extPrice;
+                }else{
+                $tempSO->qtyord = $item->qty; 
+
+                $tempSO->extprice = $item->extPrice;
+                }
+
+                $tempSO->ordate = $so->ordate;
+
+                $tempSO->rqdate = $so->ordate;
+
+                $tempSO->terr = $so->terr;
+
+                $tempSO->salesmn = $so->salesmn;
+
+                $tempSO->class = $item->iteminfo['class'];
+
+                $tempSO->seq = $item->iteminfo['seq'];
+
+                $tempSO->make = $item->iteminfo['make'];
+
+                $tempSO->locid = 1;
+
+                $tempSO->save();
+
             }
 
-            $tempSO->cost = $item->iteminfo['cost'];
 
-            $tempSO->price = $item->unitPrice;
 
-            if ($so->sotype=='R') {
-               
-               $tempSO->qtyord = 0 - $item->qty;
 
-               $tempSO->extprice =0 - $item->extPrice;
-            }else{
-               $tempSO->qtyord = $item->qty; 
 
-               $tempSO->extprice = $item->extPrice;
-            }
 
-            $tempSO->ordate = $so->ordate;
 
-            $tempSO->rqdate = $so->ordate;
-
-            $tempSO->terr = $so->terr;
-
-            $tempSO->salesmn = $so->salesmn;
-
-            $tempSO->class = $item->iteminfo['class'];
-
-            $tempSO->seq = $item->iteminfo['seq'];
-
-            $tempSO->make = $item->iteminfo['make'];
-
-            $tempSO->locid = 1;
-
-            $tempSO->save();
+            
 
             updateItemAloc($item->item);
 
