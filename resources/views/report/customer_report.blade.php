@@ -97,14 +97,28 @@
                     <div class="form-group col-xs-6 ">
                         <label for="number" class='col-xs-4 control-label'>MAXIMUM Order</label>
                         <div class="col-xs-8">
-                            <input type="number" class="form-control" name='number' placeholder='Minimum Order ..' min=0>
+                            <input type="number" class="form-control" name='number' placeholder='MAXIMUM Order ..' min=0>
                         </div>
                     </div>
 
-                    <div class="from-group col-xs-6" style='text-align:right; padding-right:45px;'>
+                    <div class="form-group col-xs-6 ">
+                        <label for="rows" class='col-xs-6 control-label'>Number of rows:</label>
+                        <div class="col-xs-6">
+                            <select name="rows" id="rows" class='form-control'>
+                                <option value="10" select>10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    
+                    <div class="from-group col-xs-12 text-right" style='padding-bottom:10px;' >
                         <button class="btn btn-default" style='min-width:100px;' type = 'reset'>Reset</button>
                         <button class="btn btn-primary" style='min-width:100px;' type='submit'>Search</button>
                     </div>
+                    
                 </form>
         </div>
 
@@ -137,7 +151,9 @@
                     @endforeach
                 </tbody>
             </table>
-            <div class="text-right">
+            <div class="text-right" style='padding-bottom:10px;'>
+                <a class="btn btn-primary" id='resetAll'>Reset</a>
+                <a class="btn btn-success" id='selectAll'>Select All</a>
                 <button class="btn btn-danger" type='submit'>Delete Customer</button>
             </div>
             </form>
@@ -150,6 +166,8 @@
                         'type'=>$_GET['type'], 
                         'indust'=>$_GET['indust'], 
                         'code'=>$_GET['code'],
+                        'number'=>$_GET['number'],
+                        'rows'=>$_GET['rows'],
                 ])->links() }}
             </div>
             <div class="col-xs-12 text-right">
@@ -166,6 +184,16 @@
                         $('#indust').val("{{$_GET['indust']}}"); 
                         $('#type').val("{{$_GET['type']}}"); 
                         $('#code').val("{{$_GET['code']}}");
+                        $('#number').val("{{$_GET['number']}}");
+                        $('#rows').val("{{$_GET['rows']}}");
+
+                        $('#selectAll').click(function(){
+                            $("input[type='checkbox']").attr('checked',true);
+                        });
+
+                        $('#resetAll').click(function(){
+                            $("input[type='checkbox']").attr('checked',false);
+                        });
                     });
             </script>
         @endif

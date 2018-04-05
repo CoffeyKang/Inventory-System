@@ -2462,6 +2462,8 @@ class AdminController extends Controller
     }
 
     public function customer_report_post(Request $request){
+
+      $rows = $request->rows;
       
       if ($request->pricecode=="empty"&&$request->salesmn=="empty"&&$request->terr=="empty"&&
       $request->indust=="empty"&&$request->code=="empty"&&$request->type=="empty"&& !is_numeric($request->number)) {
@@ -2509,7 +2511,7 @@ class AdminController extends Controller
 
       
 
-      $customers = $customers->paginate(10);
+      $customers = $customers->paginate($rows);
 
       $terrs = Customer::select('terr')->distinct()->get();
       

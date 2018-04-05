@@ -91,12 +91,21 @@ class Coffey extends Controller
 	 */
 	public function coffey(){
 
-		$customer = Customer::find("A0001");
+		$arr1 = Inventory::select('item')->get();
 
-		$customer->changeStatus();
-
-		return $customer->status;
 		
+		
+		$arr2 = Year::select('item')->distinct()->get();
+
+		$diff = $arr1->diff($arr2);
+		
+		dd($diff->all());
+		
+		$result = array_diff($arr1,$arr2);
+
+		print_r($result);
+
+
 
 		
 

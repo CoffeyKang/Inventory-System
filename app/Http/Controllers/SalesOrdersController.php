@@ -1136,6 +1136,8 @@ class SalesOrdersController extends Controller
 
         $entity->unitPrice = $price;
 
+        $entity->disc = $disc;
+
         $entity->extPrice = $qty * $price*(1-$disc/100);
 
         $entity->tax =  $qty * $price * $taxrate * (1-$disc/100);

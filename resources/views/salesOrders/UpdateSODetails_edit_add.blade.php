@@ -9,7 +9,7 @@
     <div class="col-xs-12" style='text-align:right;'>
         {{-- from =1 means come from edit entire order --}}
         <a href="/SO/EntireSO_add_new_item?sono={{$sono}}&custno={{$custno}}" class="btn btn-default create" style='min-width:200px;'>Add New Item</a>
-        <a href="/SO/UpdateSODetails_Finish?sono={{$sono}}&custno={{$custno}}" class="btn btn-success create" style='min-width:200px;'>Finish Edit</a>
+        <a href="/SO/UpdateSODetails_Finish_add?sono={{$sono}}&custno={{$custno}}" class="btn btn-success create" style='min-width:200px;'>Finish Edit</a>
     </div>
     <table class="table table-striped col-xs-12">
         <thead>
