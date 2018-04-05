@@ -2166,7 +2166,7 @@ use App\FillUpSO;
 		
 		}else{}
 
-      	$customers = Customer::where('pricecode',$pricetype)->get();
+      	$customers = Customer::orderBy('custno','asc')->where('status',1)->where('pricecode',$pricetype)->get();
 
 
 		PDF::loadView("PDF.priceCodeCustomer",compact('pricetype','customers'))->save(public_path("PDF/priceCodeCustomer/priceCodeCustomer_".$pricetype."_".date('Y-m-d').".PDF"));
@@ -2613,7 +2613,7 @@ use App\FillUpSO;
 		
 		}else{}
 
-      	$customers = Customer::orderBy('custno','asc');
+      	$customers = Customer::orderBy('custno','asc')->where('status','1');
 		if ($pricecode!="empty") {
 			$customers = $customers->where('pricecode',$pricecode);
 		}else{

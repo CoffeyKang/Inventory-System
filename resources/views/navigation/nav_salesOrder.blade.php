@@ -55,6 +55,7 @@
                             <li><a href="/fillUpDetails">Fill up SO - Details</a></li>
                             <li><a href="/businessStatus">Business Status Report</a></li>
                             <li><a href="/SO/customer_report">Customers Report</a></li>
+                            <li><a href="/SO/customer_recall">Customers Recall</a></li>
                           </ul>
                         </div>
                     </div>

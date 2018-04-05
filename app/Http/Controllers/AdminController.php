@@ -2205,7 +2205,7 @@ class AdminController extends Controller
 
       $pricetype = $request->pricetype;
 
-      $customers = Customer::where('pricecode',$pricetype)->get();
+      $customers = Customer::orderBy('custno','asc')->where('status',1)->where('pricecode',$pricetype)->get();
 
       try {
         
@@ -2468,7 +2468,7 @@ class AdminController extends Controller
         return redirect()->back()->with('status','Please Narrow down your selection criteria');
       }
 
-      $customers = Customer::orderBy('custno','asc');
+    $customers = Customer::orderBy('custno','asc')->where('status','1');
       if ($request->pricecode!="empty") {
         $customers = $customers->where('pricecode',$request->pricecode);
       }else{
@@ -2550,7 +2550,42 @@ class AdminController extends Controller
       return redirect()->back()->with('status','Change Successfully');
 
     }
+
+    public function deleteCustomer(Request $request){
+      
+      $customers = $request->all();
+      
+      foreach ($customers as $customer) {
+        
+        $cust = Customer::find($customer);
+        
+        if ($cust->goodtodelete()) {
+        
+          $cust->changeStatus();
+        
+        }else{
+
+        
+        }
+      
+      }
+      
+      return  redirect()->back();
+
+    }
+
+    public function customer_recall(){
+      $customers = Customer::orderBy('custno','asc')->where('status',0)->get();
+      return view('report.customerRecall',compact('customers'));
+    }
     
+    public function recallCustomer(Request $request){
+      $customer = Customer::find($request->custno);
+
+      $customer->changeStatus();
+
+      return redirect()->back()->with('status','Customer Recalled.');
+    }
 
 
 }

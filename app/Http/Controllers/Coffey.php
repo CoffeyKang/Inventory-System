@@ -91,10 +91,11 @@ class Coffey extends Controller
 	 */
 	public function coffey(){
 
-		// echo phpinfo();
-		$item = Inventory::find(1000);
+		$customer = Customer::find("A0001");
 
-		dd($item->Sodetails()->get());
+		$customer->changeStatus();
+
+		return $customer->status;
 		
 
 		

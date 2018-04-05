@@ -97,7 +97,7 @@
                     <div class="form-group col-xs-6 ">
                         <label for="number" class='col-xs-4 control-label'>MAXIMUM Order</label>
                         <div class="col-xs-8">
-                            <input type="number" class="form-control" name='number' placeholder='MAXIMUM Order ..' min=0>
+                            <input type="number" class="form-control" name='number' placeholder='Minimum Order ..' min=0>
                         </div>
                     </div>
 
@@ -105,9 +105,11 @@
                         <button class="btn btn-default" style='min-width:100px;' type = 'reset'>Reset</button>
                         <button class="btn btn-primary" style='min-width:100px;' type='submit'>Search</button>
                     </div>
+                </form>
         </div>
 
         @if (isset($customers))
+        <form action="/SO/deleteCustomer">
             <table class="table table-bordered table-striped">
                 <thead>
                     <th>Cust No</th>
@@ -116,6 +118,7 @@
                     <th>Type</th>
                     <th>MSC Code</th>
                     <th>Industry</th>
+                    <th>Delete</th>
                 </thead>
                 <tbody>
                     @foreach ($customers as $customer)
@@ -126,10 +129,18 @@
                             <th class='text-right'>{{ $customer->type }}</th>
                             <th>{{ $customer->code }}</th>
                             <th>{{ $customer->indust }}</th>
+                        <th>@if($customer->goodtodelete())
+                            <input type="checkbox" value='{{$customer->custno}}' name='{{$customer->custno}}' style='height:20px;'>
+                            @else 
+                            @endif</th>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+            <div class="text-right">
+                <button class="btn btn-danger" type='submit'>Delete Customer</button>
+            </div>
+            </form>
             <div class="text-center">
                 {{ $customers->appends(
                     [

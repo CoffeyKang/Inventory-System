@@ -316,6 +316,13 @@ Route::group(['prefix'=>"SO",'middleware' => 'auth'],function(){
 
 	Route::get('/customer_report_result','AdminController@customer_report_post');
 
+	/**	delete customer */
+
+	Route::get('/deleteCustomer','AdminController@deleteCustomer');
+	/** vcustomer_recall */
+	Route::get('/customer_recall','AdminController@customer_recall');
+
+	Route::get('/recallCustomer','AdminController@recallCustomer');
 });
 
 

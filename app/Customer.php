@@ -23,9 +23,10 @@ class Customer extends Model
 
     public $incrementing = false;
 
+    // status : 1 normal customer, 0 deleted customer
     protected $fillable = ['lastpay','balance','lpymt','ldate','lsale','onorder','company','type',
     'phone','address1','faxno','city','state','zip','country','contact','salesmn','terr','title',
-    'pricecode','indust','tax','limit','taxdist','source','comment','pterms','ytdsls'];
+    'pricecode','indust','tax','limit','taxdist','source','comment','pterms','ytdsls','status'];
     /**
      * inquery Order
      */
@@ -198,5 +199,30 @@ class Customer extends Model
     /** has so */
     public function so(){
         return $this->hasMany('App\SalesOrder','custno');
+    }
+
+    public function goodtodelete(){
+        if (
+            $this->onorder==0 &&
+            $this->balance==0 &&
+            $this->ytdsls==0 &&
+            $this->ptdsls==0
+            ) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public function changeStatus(){
+        
+        if ($this->status==0) {
+            $this->status=1;
+            $this->save();
+        }else{
+            $this->status=0;
+            $this->save();
+        }
+
+        return true;
     }
 }
