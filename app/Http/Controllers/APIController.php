@@ -120,6 +120,16 @@ class APIController extends Controller
     	}
     }
 
+    // customer drop ship, to search ship address
+    public function dropship(Request $request){
+        
+    	$tel = $request->costomerTel;
+    	$customer = CustAddress::where('phone',$tel)->first();
+        if($customer){
+            return $customer;
+        }
+    	   
+    }
     //search item by item number
     public function searchItem(Request $request){
         

@@ -978,6 +978,9 @@ Route::group(['prefix'=>"api"],function(){
 	 */
 	Route::get('admin_adjust','APIController@admin_adjust');
 
+	/**	search customer drop ship */
+	Route::get('dropship','APIController@dropship');
+
 
 
 	

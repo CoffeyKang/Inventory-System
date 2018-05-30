@@ -139,8 +139,95 @@
         {{$customer->custno}}   
         @endif
         &gt;
-         <a href="/SO/createShipAddress?custno={{$customer->custno}}" class='btn btn-success'>Add</a></legend>
+        <a href="/SO/createShipAddress?custno={{$customer->custno}}" class='btn btn-success'>Add</a>
+        {{-- customer may request drop  --}}
+        <a class="btn btn-default" id='dropButton'> Drop Ship</a>
+        
+        {{-- end --}}
+    </legend>
+    {{-- when click cass this function --}}
+        <div class="form-group hidden searchBynumber">
+            <div class="col-xs-12">
+                <div class="col-xs-4">
+                    <label for="telephoneNumber" >Phone Numeber:</label>
+                </div>
+                <div class="col-xs-8">
+                <input type="text" name='telephoneNumber' id='telephoneNumber' class='form-control'>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            $('#dropButton').click(function(){
+                $('.searchBynumber').removeClass('hidden');
+            });
+            
+            
+            $('#telephoneNumber').on('keyup', function(){
 
+                // telephone format
+                $value = $(this).val();
+                
+                if ($value.length>=1) {
+
+                    $value1 = $value.slice(0,3);
+                    $value2 = $value.slice(3,6);
+                    $value3 = $value.substr(6,15);
+
+                    $value2 = "/"+$value2;
+                    $value3 = "-"+$value3;
+                    if($value.length<=2){
+                        $value=$value1;
+                    
+                    }else if($value.length<=5){
+                        $value=$value1+$value2+'';
+                    }else{
+                        $value = $value1+''+$value2+$value3;
+                    }
+                    if($value.length==12){
+                        $('#telephoneNumber').val($value);
+                    }
+                }
+
+                $.ajax({
+                    type : 'get',
+                    url : "{{url('/api/dropship')}}",
+                    data:{'costomerTel':$value},
+                    success:function(data){
+                    //console.log(data);
+                        if (data) {
+                            console.log(data);
+                            $('#ship_company').val(data.company);
+
+                            $('#ship_address1').val(data.address1);
+
+                            $('#ship_address2').val(data.address2);
+
+                            $('#ship_city').val(data.city);
+
+                            $('#ship_state').val(data.state);
+
+                            $('#ship_zip').val(data.zip);
+
+                            $('#ship_country').val(data.country);
+
+                            $('#telephoneNumber').css('border','3px solid green');
+                            
+
+                        }else{
+                            
+                        };
+                    }
+                });
+                
+            });
+
+            $('#addr').change(function(){
+                $('.searchBynumber').addClass('hidden');
+            });   
+        </script>
+
+        {{-- end --}}
 
         <div class='col-xs-12'>
             <div class="col-xs-12 form-group">
