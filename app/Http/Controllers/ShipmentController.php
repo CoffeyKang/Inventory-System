@@ -547,7 +547,16 @@ class ShipmentController extends Controller
 
         // $cash->save();
 
-        $currency = SalesOrder::where('sono', $invoice->ornum)->first()->taxdist;
+        $currency_i = SalesOrder::where('sono', $invoice->ornum)->first();
+
+        if ($currency_i) {
+            $currency = SalesOrder::where('sono', $invoice->ornum)->first()->taxdist;
+        }else if ($invoice->current != null) {
+            $currency = $invoice->current;
+        }else{
+            $currency = "CAD";
+        }
+
 
         return view('shipment.arcash',['invno'=>$invno,'hasEmail'=>$hasEmail,'customer'=>$customer,'currency'=>$currency]);
     }
@@ -577,9 +586,16 @@ class ShipmentController extends Controller
 
         $SalesOrder = SalesOrder::find($invoice->ornum);
 
-        $SalesOrder->taxdist = $request->currency;
+         if ($SalesOrder) {
+            
+            $SalesOrder->taxdist = $request->currency;
 
-        $SalesOrder->save();
+            $SalesOrder->save();
+        }else{
+            $invoice->current = $request->currency;
+
+            $invoice->save();
+        }
 
         /**
          * in the database table, the make column presents the comment

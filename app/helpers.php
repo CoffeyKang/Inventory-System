@@ -132,7 +132,7 @@ use App\FillUpSO;
 	     if ($entire_invno_mast->ornum) {
             $currency = SalesOrder::find($entire_invno_mast->ornum)->taxdist;
         }else{
-            $currency = "CAD";
+            $currency = $entire_invno_mast->current;
         }
 
 	    $last = $entire_invno_details->lastPage();

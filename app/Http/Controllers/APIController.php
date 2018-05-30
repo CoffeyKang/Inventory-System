@@ -43,7 +43,7 @@ class APIController extends Controller
 
             $from = $request->from;
     		
-    		$customers = Customer::where('custno','LIKE',$request->costomerNum.'%')->orderBy('custno','asc')->get();
+    		$customers = Customer::where('custno','LIKE',$request->costomerNum.'%')->orderBy('custno','asc')->where('status',1)->get();
 
     		if($customers){
 

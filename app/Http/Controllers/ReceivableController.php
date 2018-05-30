@@ -709,7 +709,7 @@ class ReceivableController extends Controller
         if ($entire_invno_mast->ornum) {
             $currency = SalesOrder::find($entire_invno_mast->ornum)->taxdist;
         }else{
-            $currency = "CAD";
+            $currency = $entire_invno_mast->current;
         }
         
         return view('receive.EntireInvoice',['invno'=>$invno,'entire_invno_cust'=>$entire_invno_cust,'entire_invno_address'=>$entire_invno_address,'entire_invno_mast'=>$entire_invno_mast,'entire_invno_details'=>$entire_invno_details,'entire_invno_details_total'=>$entire_invno_details_total,'currency'=>$currency,'nonTax'=>$nonTax, 'taxable'=>$taxable]);
@@ -2109,6 +2109,8 @@ class ReceivableController extends Controller
         $armast->invamt = $invoice_details->sum('extprice')*(1+ $armast->taxrate/100) ;
 
         $armast->balance = $armast->invamt;
+
+        $armast->current = "CAD";
 
         $armast->tax = $invoice_details->sum('extprice')*$armast->taxrate/100;
 

@@ -1460,16 +1460,11 @@ class SalesOrdersController extends Controller
 
                 $check_item->price = $item->unitPrice;
 
-                if ($so->sotype=='R') {
                 
-                $check_item->qtyord += (0 - $item->qty);
-
-                $check_item->extprice += (0 - $item->extPrice);
-                }else{
                 $check_item->qtyord += $item->qty; 
 
                 $check_item->extprice += $item->extPrice;
-                }
+                
 
                 $check_item->save();
             }else{
@@ -1502,17 +1497,10 @@ class SalesOrdersController extends Controller
 
                 $tempSO->price = $item->unitPrice;
 
-                if ($so->sotype=='R') {
-                
-                $tempSO->qtyord = 0 - $item->qty;
-
-                $tempSO->extprice =0 - $item->extPrice;
-                }else{
                 $tempSO->qtyord = $item->qty; 
 
                 $tempSO->extprice = $item->extPrice;
-                }
-
+                
                 $tempSO->ordate = $so->ordate;
 
                 $tempSO->rqdate = $so->ordate;
