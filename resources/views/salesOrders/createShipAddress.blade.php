@@ -249,7 +249,7 @@
                   if (data=='exist') {
                     $('#phone').css('border','3px solid red');
                     $('#alert').append("<div class='alert alert-danger'>The phone number is used.</div>");
-                  }
+                  }else{ $('#alert').empty(); }
 
                 }
             });
@@ -268,6 +268,8 @@
                   if (data=='exist') {
                     $('#cshipno').css('border','3px solid red');
                     $('#alert').append("<div class='alert alert-danger'>The Ship number is used.</div>");
+                  }else{
+                    $('#alert').empty();
                   }
                 }
             });
