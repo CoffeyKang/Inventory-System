@@ -987,4 +987,32 @@ class APIController extends Controller
         return 1;
 
     }
+
+    /**validateCustomerShippingAddressTel */
+    public function validateCustomerShippingAddressTel(Request $request){
+
+        $tel = $request->tel;
+
+        $customer = CustAddress::where('phone',$tel)->first();
+
+        if ($customer) {
+            return 'exist';
+        }else{
+            return $tel;
+        }
+    }
+
+    /**validateCustomerShippingAddressID */
+    public function validateCustomerShippingAddressID(Request $request){
+
+        $cshipno = $request->cshipno;
+
+        $customer = CustAddress::where('cshipno',$cshipno)->first();
+
+        if ($customer) {
+            return 'exist';
+        }else{
+            return $cshipno;
+        }
+    }
 }    

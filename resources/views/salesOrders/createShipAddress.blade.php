@@ -10,7 +10,9 @@
 </style>
 	<fieldset>
 	   <legend>Add new Ship Address for customer {{$customer->custno}}, {{$customer->company}}</legend>
-     
+     <div id="alert">
+
+     </div>
 	   <form action="/SO/saveShipAddress" method='POST'>
 
       <input type="hidden" value='{{$customer->custno}}' name='custno'>
@@ -33,7 +35,7 @@
                   <input type="text" value='{{old("phone")}}' id='phone' name='phone' class='form-control'>
                   @if ($errors->has('phone'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('phone') }}</strong>
+                            <strong id='phoneError'>{{ $errors->first('phone') }}</strong>
                         </span>
                         @endif
                 </div>  
@@ -232,14 +234,46 @@
                 }else{
                     $value = $value1+''+$value2+$value3;
                 }
-
+                console.log($value.length);
 
                 
         }
 
-        if($value.length==10){
-                    $("#phone").val($value);
+        if($value.length==12){
+          $("#phone").val($value);
+            $.ajax({
+                type:'get',
+                url:'/api/validateCustomerShippingAddressTel',
+                data:{'tel':$value},
+                success:function(data){
+                  if (data=='exist') {
+                    $('#phone').css('border','3px solid red');
+                    $('#alert').append("<div class='alert alert-danger'>The phone number is used.</div>");
+                  }
+
+                }
+            });
         }
+
+        
+    });
+
+    $("#cshipno").blur(function(){
+          $value = $(this).val();
+          $.ajax({
+                type:'get',
+                url:'/api/validateCustomerShippingAddressID',
+                data:{'cshipno':$value},
+                success:function(data){
+                  if (data=='exist') {
+                    $('#cshipno').css('border','3px solid red');
+                    $('#alert').append("<div class='alert alert-danger'>The Ship number is used.</div>");
+                  }
+                }
+            });
+        
+
+        
     });
   </script>  
 

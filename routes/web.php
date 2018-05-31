@@ -981,8 +981,10 @@ Route::group(['prefix'=>"api"],function(){
 	/**	search customer drop ship */
 	Route::get('dropship','APIController@dropship');
 
+	/**	customer ship address validate whether the phone number is duplicate */
+	Route::get('validateCustomerShippingAddressTel','APIController@validateCustomerShippingAddressTel');
 
-
+	Route::get('validateCustomerShippingAddressID','APIController@validateCustomerShippingAddressID');
 	
 
 	/**
