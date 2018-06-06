@@ -1297,7 +1297,7 @@ class POshipController extends Controller
 
             $inventory_item->onhand += $receive_num;
 
-            $inventory_item->orderqty += $item_poship->qtyshp;
+            $inventory_item->orderqty = $item_poship->qtyshp;
 
             $inventory_item->onorder += $item_poship->qtyshp-$receive_num;
 
