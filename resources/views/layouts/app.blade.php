@@ -208,6 +208,7 @@ legend{padding:.5em;border:0;width:auto}
                                             <li><a href="{{ url('/allUser') }}">All Users</a></li>
                                             <li><a href="{{ url('/admin/massCost') }}">Mass Cost</a></li>
                                             <li><a href="{{ url('/admin/massPrice') }}">Mass Price</a></li>
+                                            <li><a href="{{ url('/admin/massPricel') }}">Mass Price L</a></li>
                                             <li><a href="{{ url('/admin/exchangeRate') }}">Change Exchange Rate</a></li>
                                             <li><a href="{{ url('/admin/setOrderPnt') }}">Set Order Pnt</a></li>
                                             <li><a href="{{ url('/admin/adjustInventory') }}">Adjust Inventory</a></li>

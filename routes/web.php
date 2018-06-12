@@ -1042,7 +1042,12 @@ Route::group(['prefix'=>'admin','middleware' => 'auth'],function(){
 	//mass price
 	Route::get('massPrice','AdminController@massPrice');
 
+	//mass price
+	Route::get('massPricel','AdminController@massPricel');
+
 	Route::post('change_mass_price','AdminController@change_mass_price');
+
+	Route::post('change_mass_pricel','AdminController@change_mass_pricel');
 
 	//set order pnt
 	Route::get('setOrderPnt','AdminController@setOrderPnt');

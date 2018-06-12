@@ -154,24 +154,6 @@ class AdminController extends Controller
 
         $item_misc_code = $request->item_misc_code;
 
-        // if ($include=='all') {
-        //      $inventory = Inventory::where('item','>=',$begin)->where('item','<=',$endding)->where('supplier',$vendor)
-        //                         ->where('vpartno',$partNumber)->where('class',$class)->where('code',$item_misc_code)->get();
-        //  }
-
-        // $include_stock_only = Inventory::where('stkcode','Y');
-        
-        // $include_non_stock = Inventory::where('stkcode','N');
-
-        // $begin_query = "where('item','>=',$begin)";
-
-        // $endding_query = "where('item','<=',$endding)";
-
-        // $partNumber_qurey = "where('vpartno',$partNumber)";
-
-        // $class_query = "where('class',$class)";
-
-        // $item_misc_code_query = "where('code',$item_misc_code)";
 
        $query = Inventory::where('item','>','-999999999');
 
@@ -239,6 +221,106 @@ class AdminController extends Controller
     public function massPrice(){
 
       return view('admin.massPrice');
+    }
+
+    /**  massly change price l */
+    public function massPricel(){
+
+      return view('admin.massPricel');
+    }
+
+
+    public function change_mass_pricel(Request $request){
+      $this->validate($request,[
+        'exchangeRate'=>'numeric|required',
+        'margin'=>'numeric|required',
+      ]);
+
+      $exc = $request->exchangeRate;
+
+      $margin = $request->margin;
+
+      $include = $request->include;
+
+        $factor = $request->factor;
+
+        $begin = $request->begin;
+
+        $endding = $request->endding;
+
+        $vendor = $request->vendor;
+
+        $partNumber = $request->partNumber;
+
+        $class = $request->class;
+
+        $item_misc_code = $request->item_misc_code;
+
+
+       $query = Inventory::where('item','>','-999999999');
+
+       if($begin!==''){
+        $query = $query->where('item','>=',$begin);
+       }
+
+       if($endding!==''){
+        $query = $query->where('item','<=',$endding);
+
+       }
+
+       if($partNumber!==''){
+            $query = $query->where('item',$partNumber); 
+       }
+
+       if($class!==''){
+            $query = $query->where('class',$class);    
+       }
+
+       if($item_misc_code!==''){
+            $query = $query->where('code',$item_misc_code);
+       }
+
+
+       if($include == 'all'){
+
+            $inventory = $query->get();
+
+            
+
+       }else if($include=='stock_only'){
+
+            $inventory = $query->where('stkcode','Y')->get();
+
+            //echo count($inventory);
+
+       }else if($include=='Nonstock_only'){
+
+            $inventory = $query->where('stkcode','N')->get();
+
+            
+
+       }else{
+            echo "something wrong with include";
+       }
+
+
+      
+      foreach ($inventory as $item) {
+        
+        $factor = $item->price;
+        
+        $item->pricel = ceil($factor * $exc * $margin);
+
+       
+        
+        $item->save();
+
+      }
+
+      return redirect()->back()->with('status','Price L has been changed.');
+    
+    
+    
     }
 
 

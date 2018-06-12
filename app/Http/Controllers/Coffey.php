@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -91,19 +90,13 @@ class Coffey extends Controller
 	 */
 	public function coffey(){
 
-		$arr1 = Inventory::select('item')->get();
+		// $items = Inventory::where('orderqty','>',0)->get();
 
-		
-		
-		$arr2 = Year::select('item')->distinct()->get();
+		// foreach ($items as $item) {
+		// 	$item->orderqty = POSHIP::where('item',$item->item)->where('qtyrec','>',0)->orderBy('recdate','desc')->first()->qtyrec;
 
-		$diff = $arr1->diff($arr2);
-		
-		dd($diff->all());
-		
-		$result = array_diff($arr1,$arr2);
-
-		print_r($result);
+		// 	$item->save();
+		// }
 
 
 
