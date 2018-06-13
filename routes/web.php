@@ -16,7 +16,13 @@ Route::get('calculateCuft','Coffey@calculateCuft');
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+
+	$checkLogin = Auth::user()?true:false;
+	if ($checkLogin){
+		return view('home');
+	}else{
+		return view('auth.login');
+	}
 });
 
 Route::get('/newUser', function(){
