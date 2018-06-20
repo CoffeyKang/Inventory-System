@@ -67,10 +67,9 @@
 			<tr>
 				<td>
 					<h2><i>GOLDEN LEAF AUTOMOTIVE</i></h2>
-					<h4>GOLDEN LEAF AUTOMOTIVE</h4>
-					170 ZENWAY BLVD UNIT#2<br>
-					WOODBRIDGE, ONTARIO L4H 2Y7<br>
-					Telephone 905/850-3433
+					<h4>
+						<br>170 ZENWAY BLVD UNIT#2<br> WOODBRIDGE, ONTARIO L4H 2Y7<br> Telephone 905/850-3433<br> GST/HST # 86476 7512
+					</h4>
 				</td>
 				<td>
 					@if($entire_invno_mast->artype=='O')

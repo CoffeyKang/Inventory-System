@@ -23,10 +23,9 @@
     <div class="order-header">
        <div class="col-xs-6">
            <h1><i>GOLDEN LEAF AUTOMOTIVE</i></h1>
-           <h3>GOLDEN LEAF AUTOMOTIVE</h3>
-           <br>170 ZENWAY BLVD UNIT#2<br>
-           WOODBRIDGE, ONTARIO L4H 2Y7<br>
-           Telephone 905/850-3433
+           <h4>
+            <br>170 ZENWAY BLVD UNIT#2<br> WOODBRIDGE, ONTARIO L4H 2Y7<br> Telephone 905/850-3433<br> GST/HST # 86476 7512
+            </h4>
        </div>
        <div class="col-xs-6">
 
@@ -34,7 +33,7 @@
             <h2><b>_RECEIPT</b>
 
         @else
-           <h2><b>INVOICE {{$invno}}</b>
+           <h2 style='line-height: 41px;'><b>INVOICE {{$invno}}</b>
         @endif
     
             @if(isset($_GET['from']))
@@ -43,7 +42,7 @@
 
 
            @endif</h2>
-           <h4>Invoice Date &nbsp;
+           <h4><br>Invoice Date &nbsp;
            
            {{$entire_invno_mast->invdte}}</h4>
            <h4>Page: {{$page}}</h4>

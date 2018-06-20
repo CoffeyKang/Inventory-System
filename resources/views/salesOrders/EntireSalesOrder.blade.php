@@ -26,13 +26,15 @@
     <div class="order-header">
        <div class="col-xs-6">
            <h1><i>GOLDEN LEAF AUTOMOTIVE</i></h1>
-           <h3>GOLDEN LEAF AUTOMOTIVE</h3>
+           <h4>
            <br>170 ZENWAY BLVD UNIT#2<br>
            WOODBRIDGE, ONTARIO L4H 2Y7<br>
-           Telephone 905/850-3433
+           Telephone 905/850-3433<br>
+           GST/HST # 86476 7512
+        </h4>
        </div>
        <div class="col-xs-6">
-           <h2><b>SALES ORDER 
+           <h2 style='line-height: 41px;'><b>SALES ORDER 
             @if($entire_so_mast->sotype == 'B' )
                 <span> &nbsp;&nbsp;&nbsp;B</span>
             @elseif($entire_so_mast->sotype == 'R')
@@ -40,14 +42,14 @@
             @else
             @endif
             {{$sono}}</b>  
-
             @if(isset($_GET['from']))
 
             <div  style='text-algin:right; display:inline; margin-left:80px;'><a href="javascript:history.go(-1);" class="btn btn-primary print_hide">Back</a></div>
 
 
            @endif</h2>
-           <h4>Sales Order Date &nbsp;
+
+           <h4><br>Sales Order Date &nbsp;
            {{$entire_so_mast->ordate}}</h4>
             <h4> Last modified: {{$entire_so_mast->lastmodified}} </h4>
           <h4> Page: {{$page}}</h4>
