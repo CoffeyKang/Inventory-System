@@ -16,8 +16,8 @@
 4 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\graceful-fs\graceful-fs.js:78:16
 4 verbose stack     at tryToString (fs.js:457:3)
 4 verbose stack     at FSReqWrap.readFileAfterClose [as oncomplete] (fs.js:444:12)
-5 verbose cwd C:\Users\Fei Kang\Desktop\GLA_construction\golden
-6 error Windows_NT 10.0.16299
+5 verbose cwd C:\Users\Fei Kang\Desktop\GLA_inventory\golden
+6 error Windows_NT 10.0.17134
 7 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "run" "watch"
 8 error node v6.11.4
 9 error npm  v3.10.10

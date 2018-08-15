@@ -98,6 +98,15 @@ class Coffey extends Controller
 		// 	$item->save();
 		// }
 
+		$pos = POSHIP::where('reqno',80814)->get();
+
+		foreach ($pos as $po) {
+			if (Inventory::where('item',$po->item)->first()) {
+				# code...
+			}else{
+				echo $po->item .'<br>';
+			}
+		}
 
 
 		

@@ -1237,13 +1237,20 @@ class POshipController extends Controller
             
             $update_podetails = TEMP_PO::where('purno',$item_poship->purno)->where('item',$item_poship->item)->first();
 
-            $new_left = $update_podetails->qtyord + ($item_poship->qtyshp - $receive_num);
+            if ($update_podetails ) {
+                
+                $new_left = $update_podetails->qtyord + ($item_poship->qtyshp - $receive_num);
 
-            $update_podetails->qtyord = $new_left;
+                $update_podetails->qtyord = $new_left;
 
-            $update_podetails->extcost = $update_podetails->qtyord * $update_podetails->cost;
+                $update_podetails->extcost = $update_podetails->qtyord * $update_podetails->cost;
 
-            $update_podetails->save();
+                $update_podetails->save();
+            }else{
+                
+            }
+
+            
 
            // // ----------------------------------------here. to update podetails end, 
             /**
@@ -1273,6 +1280,8 @@ class POshipController extends Controller
             $inventory_item = Inventory::where('item',$item_poship->item)->first();
 
             //$inventory_item->fobcost = $item_poship->cost;
+            if ($inventory_item) {
+                
             
             //change fobcost and cost
             $inventory_item->cupt = $item_poship->cuft;
@@ -1304,6 +1313,8 @@ class POshipController extends Controller
             $inventory_item->onshpeta = '';
 
             $inventory_item->save();
+
+            }else{}
 
             /**
              * update vendor file
