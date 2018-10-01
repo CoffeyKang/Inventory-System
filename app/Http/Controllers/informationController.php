@@ -34,7 +34,7 @@ class informationController extends Controller
     }
     //show all customers
     public function allCustomers(){
-    	$customers = Customer::orderBy('custno','asc')->paginate(config("app.paginate_number"));
+    	$customers = Customer::where('status',1)->orderBy('custno','asc')->paginate(config("app.paginate_number"));
     	return view('information.allCustomers', compact("customers"));
     }
 
@@ -626,5 +626,24 @@ class informationController extends Controller
 
         
         return view('information.allInventory', compact("Inventory"));    
+    }
+
+
+    public function deleteClients($id){
+        $customer = Customer::where('custno',$id)->first();
+        
+        if ($customer){
+            if (
+                $customer->goodtodelete()
+                ){
+                $customer->changeStatus();
+                return redirect()->action('informationController@allCustomers');
+            }else{
+                return redirect()->back()->with('clientDelete','This client Cannot be deleted.');
+            }
+        }else{
+            return redirect()->back()->with('clientDelete','This client Cannot be deleted.');
+        }
+       
     }
 }

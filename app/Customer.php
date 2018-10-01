@@ -203,10 +203,10 @@ class Customer extends Model
 
     public function goodtodelete(){
         if (
-            $this->onorder==0 &&
-            $this->balance==0 &&
-            $this->ytdsls==0 &&
-            $this->ptdsls==0
+            $this->onorder==0.0 &&
+            $this->balance==0.0 &&
+            $this->ytdsls==0.0 &&
+            $this->ptdsls==0.0
             ) {
             return true;
         }else{
@@ -215,14 +215,24 @@ class Customer extends Model
     }
     public function changeStatus(){
         
+        if ($this->status==1) {
+            $this->status=0;
+            $this->save();
+        }else{
+            
+        }
+
+        return true;
+    }
+
+    public function customerRecall(){
         if ($this->status==0) {
             $this->status=1;
             $this->save();
         }else{
-            $this->status=0;
-            $this->save();
+
         }
 
-        return true;
+        return redirect()->back()->with('status',"The Client recalled.");
     }
 }

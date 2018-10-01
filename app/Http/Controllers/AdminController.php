@@ -2664,9 +2664,10 @@ class AdminController extends Controller
     }
     
     public function recallCustomer(Request $request){
+      
       $customer = Customer::find($request->custno);
 
-      $customer->changeStatus();
+      $customer->customerRecall();
 
       return redirect()->back()->with('status','Customer Recalled.');
     }

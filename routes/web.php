@@ -1562,3 +1562,5 @@ Route::get('/accountList','PayableController@accountList')->middleware('auth');
  */
 Route::get('/showAccountList','PayableController@showAccountList')->middleware('auth');
 
+Route::get('/deleteClients/{id}','informationController@deleteClients')->middleware('auth');
+

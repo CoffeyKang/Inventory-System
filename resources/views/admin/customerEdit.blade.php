@@ -23,8 +23,14 @@
 @endif
 
 @if (session('status'))
-    <div class="alert alert-success">
-        {{ session('status') }}
+<div class="alert alert-success">
+  {{ session('status') }}
+</div>
+@endif
+
+@if (session('clientDelete'))
+    <div class="alert alert-danger">
+        {{ session('clientDelete') }}
     </div>
 @endif
 
@@ -279,9 +285,11 @@
     </div>
 
   
-    <div class="col-xs-12 form-group " style='text-align:right;'>
+    <div class="col-xs-12 form-group " style='text-align:right;margin-top:10px;'>
+
+        <a type='submit' class='btn btn-danger' style='min-width:200px;' data-toggle="modal" data-target="#deleteClients">Delete</a>
       
-        <button class="btn btn-primary" style='min-width:200px;' type='reset'> RESET</button>
+        <button class="btn btn-primary" style='min-width:200px;' type='reset'> RESET </button>
        
       
         <a type='submit' class='btn btn-success' style='min-width:200px;' data-toggle="modal" data-target="#myModal">UPDATE</a>
@@ -294,6 +302,23 @@
   </form>
 
   
+
+  {{-- model to double check --}}
+  <div class="modal fade" id="deleteClients" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content ">
+        <div class="modal-header   ">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-body" id="myModalLabel">Ready To Delete Customer?</h4>
+        </div>
+  
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <a href='/deleteClients/{{$customer->custno}}' type="submit" class="btn btn-success" id='doubleCheck'>Delete Customer</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
