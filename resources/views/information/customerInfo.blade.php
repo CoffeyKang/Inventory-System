@@ -22,7 +22,9 @@
  ?>
 @section('content')
 	<fieldset style='text-align:left; color:black; font-weight:900'>
-		<legend>Customer File Maintenance</legend>
+		<legend>Customer File Maintenance @if ($customer->status==0)
+			<span style='color:red'>,DELETED</span>
+		@endif</legend>
 		@if(isset($_GET['lastpage']))
 			<div class="col-xs-4 col-xs-offset-8" style='text-align:right'>
 				<a href="javascript:history.go(-1);" class="btn btn-primary">Back To New SO</a>
