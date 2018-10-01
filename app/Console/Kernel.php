@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('TestLog:james')
                  ->monthlyOn(date('t'), '23:23');
+                 // ->everyMinute();
         
         $schedule->command('FillUpSO:fillupSO')
                  ->everyMinute();          

@@ -2481,6 +2481,8 @@ use App\FillUpSO;
    		}
 
    		$his_record->save();
+
+   		print_history_status($period);
    		
 
    		
@@ -2771,6 +2773,13 @@ use App\FillUpSO;
 
 		$inventory->save();
 
+	}
+
+	function print_history_status($data){
+		$record = monthlyHistory::where('period',$data)->first();
+
+		PDF::loadView("PDF.history_business_pdf",compact('record'))
+		->save(public_path("PDF/business_status_history/".$data.".PDF"));
 	}
 
 	   	

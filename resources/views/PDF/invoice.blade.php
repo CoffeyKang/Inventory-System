@@ -297,21 +297,27 @@
 				</table>
 			</div>
 
-			<div class='clear-both'>
-				<h6>Return/Exchange Policy</h6>
-				<p class='polic'>
-					1.Defective parts must be returned using an RA within <span class="imp">90 days</span> of the <span class="imp"> INVOICE DATE</span>. After 90 days, we will not accept it for
-					return.<br>
-					2.If we ship the incorrect parts, they must be returned to us using an <span class="imp">RA</span> within <span class="imp">30 days</span> of the <span class="imp">INVOICE DATE</span>. After 30 days,
-					we will assume you want to keep it and will cancel the return authorization.<br>
-					3.If you order the wrong part it must be returned to us using an RA within <span class="imp">30 days</span> of the <span class="imp">INVOICE DATE</span> to receive a complete
-					refund. After 30 days up to 90 days from <span class="imp">INVOICE DATE</span>, you may still return the part using the RA system but will be assessed
-					a 25% re-stock charge.<br>
-					4.All return/exchange on defective or damaged parts need to provide original invoice and with original product package. We
-					do not accept return/exchange product without item original package.<br>
-				
-				For detail shopping policies, please visit our web site at <span style='text-decoration: underline'>www.goldenleafautomotive.com</span></p>
-			</div>
+			<table class='clear-both' style='border:none'>
+				<tr style='border:none' >
+					<td style='border:none'  >
+						<h6>Return/Exchange Policy</h6>
+					
+
+
+					<p class='polic'>
+						1.Defective parts must be returned using an RA within <span class="imp">90 days</span> of the <span class="imp"> INVOICE DATE</span>. After 90 days, we will not accept it for
+						return.<br>
+						2.If we ship the incorrect parts, they must be returned to us using an <span class="imp">RA</span> within <span class="imp">30 days</span> of the <span class="imp">INVOICE DATE</span>. After 30 days,
+						we will assume you want to keep it and will cancel<br> &nbsp;&nbsp;the return authorization.<br>
+						3.If you order the wrong part it must be returned to us using an RA within <span class="imp">30 days</span>of the <span class="imp">INVOICE DATE</span> to receive a complete
+						refund. After 30 days up to 90 days from <span class="imp">INVOICE <br>&nbsp;&nbsp;DATE</span>, you may still return the part using the RA system but will be assessed
+						a 25% re-stock charge.<br>
+						4.All return/exchange on defective or damaged parts need to provide original invoice and with original product package. We do not accept return/exchange product<br> &nbsp;&nbsp;without item original package.<br>
+					
+					 For detail Return/Exchange/Warranty policies, please visit our web site at <span style='text-decoration: underline'>www.goldenleafautomotive.com</span></p>
+					</td>
+				</tr>
+			</table>
 			
 		
 		

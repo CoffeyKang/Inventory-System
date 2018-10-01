@@ -302,6 +302,8 @@ class AdminController extends Controller
        }else{
             echo "something wrong with include";
        }
+
+
       
       foreach ($inventory as $item) {
         

@@ -72,6 +72,8 @@ use App\Mail\NotificationToUs;
 
 use App\HIS_APYMST;
 
+use App\HIS_POTRN;
+
 use App\GLA_Address;
 
 use App\POShipTo;
@@ -90,6 +92,26 @@ class Coffey extends Controller
 	 */
 	public function coffey(){
 
+			// $pos = TEMP_PO::where('purno','3466')->get();
+
+			// foreach ($pos as $po){
+			// 	$inventory = $po->toInventory()->first();
+			// 	// $inventory->onorder = $inventory->potran()->get()->sum('qtyord');
+
+			// 	// $inventory->save();
+			// 	echo $inventory->item .'/'.$inventory->onship .'/'.$inventory->onorder.'<br>';
+			// }
+
+
+		// reset item onorder 
+		// $inventory = Inventory::all();
+		// foreach ($inventory as $item) {
+		// 	if ($item->onorder!=$item->potran()->get()->sum('qtyord')) {
+		// 		echo $item->item.'<hr>';
+		// 	}
+		// }
+
+		// print_history_status("2018-04-01");
 		// $items = Inventory::where('orderqty','>',0)->get();
 
 		// foreach ($items as $item) {
@@ -98,15 +120,13 @@ class Coffey extends Controller
 		// 	$item->save();
 		// }
 
-		$pos = POSHIP::where('reqno',80814)->get();
+		// $pos = POSHIP::where('reqno',80814)->get();
 
-		foreach ($pos as $po) {
-			if (Inventory::where('item',$po->item)->first()) {
-				# code...
-			}else{
-				echo $po->item .'<br>';
-			}
-		}
+		// foreach ($pos as $po) {
+		// 	$item = Inventory::where('item',$po->item)->first();
+		// 	$item->onhand -= $po->qtyrec;
+		// 	$item->save();
+		// }
 
 
 		

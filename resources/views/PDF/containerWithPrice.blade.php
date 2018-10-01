@@ -84,11 +84,6 @@
                     
                 </tbody>
             </table>
-            
-            
-            
-            
-            
         	<br><br>
             <h4 style='text-align:center'>Container {{$pomshp->reqno}} Details</h4>
             <table >
@@ -118,7 +113,7 @@
                         <td rowspan='2'>{{$item->purno}}</td>
                         <td rowspan='2'><b>{{$item->item}}</b></td>
                         <td rowspan='2' colspan='3' style=''>{{$item->descrip}}</td>
-                        <td colspan='2'>
+                        <td colspan='2' nowrap >
                         	@if (isset($vendor->vpartNo()->where('item',$item->item)->first()->vpartno))
                                 
                             {{$vendor->vpartNo()->where('item',$item->item)->first()->vpartno}}

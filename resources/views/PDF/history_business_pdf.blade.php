@@ -113,7 +113,7 @@
 			</tr>
 			<tr>
 				<td class='left'>PDT GROSS MARGIN:</td>
-				<td class='right'>$ {{number_format($record['PTD_shipment'] - $record['cogs'],2)}}</td>
+				<td class='right'>$ {{number_format($record['so_ptd_shipment'] - $record['cogs'],2)}}</td>
 			</tr>
 			
 			

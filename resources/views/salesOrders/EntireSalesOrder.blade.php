@@ -26,8 +26,7 @@
     <div class="order-header">
        <div class="col-xs-6">
            <h1><i>GOLDEN LEAF AUTOMOTIVE</i></h1>
-           <h4>
-           <br>170 ZENWAY BLVD UNIT#2<br>
+           <h4><br>170 ZENWAY BLVD UNIT#2<br>
            WOODBRIDGE, ONTARIO L4H 2Y7<br>
            Telephone 905/850-3433<br>
            GST/HST # 86476 7512

@@ -112,8 +112,8 @@
                     <tr >
                         <td rowspan=2><div style=' min-height: 300px;'>{{$item->purno}}</div></td>
                         <td rowspan=2><b>{{$item->item}}</b></td>
-                        <td rowspan=2 colspan='3' style='word-wrap: break-word;'>{{$item->descrip}}</td>
-                        <td >
+                        <td rowspan=2 colspan='3' style=''>{{$item->descrip}}</td>
+                        <td style='font-size: 10px;' nowrap >
                         	@if (isset($vendor->vpartNo()->where('item',$item->item)->first()->vpartno))
                                 
                             {{$vendor->vpartNo()->where('item',$item->item)->first()->vpartno}}

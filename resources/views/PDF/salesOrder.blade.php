@@ -65,8 +65,8 @@
 		<table id='title_part' >
 			<tr>
 				<td>
-					<h2><i>GOLDEN LEAF AUTOMOTIVE</i></h2>
-					<h4>
+					<h1><i>GOLDEN LEAF AUTOMOTIVE</i></h1>
+					<h4><br>
 					170 ZENWAY BLVD UNIT#2<br>
 					WOODBRIDGE, ONTARIO L4H 2Y7<br> Telephone 905/850-3433<br> GST/HST # 86476 7512</h4>
 				</td>
@@ -81,13 +81,9 @@
 					@else
 					<b>SALES ORDER</b>
 					@endif{{$sono}}</h1>
-					
-					<h5>Sales Order Date &nbsp; {{$entire_so_mast->ordate}} <br>
-					
+					<h4>Sales Order Date &nbsp; {{$entire_so_mast->ordate}} <br>
 					Last modified &nbsp; {{$entire_so_mast->lastmodified}} <br>
-					
-					Page: {{$page}}</h5>
-					
+					Page: {{$page}}</h4>
 				</td>
 			</tr>
 			

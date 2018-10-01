@@ -707,7 +707,7 @@ class ReceivableController extends Controller
         //var_dump($entire_invno_cust);
 
         if ($entire_invno_mast->ornum) {
-            $currency = SalesOrder::find($entire_invno_mast->ornum)->taxdist;
+            $currency = SalesOrder::find($entire_invno_mast->ornum)?SalesOrder::find($entire_invno_mast->ornum)->taxdist:"CAD";
         }else{
             $currency = $entire_invno_mast->current;
         }

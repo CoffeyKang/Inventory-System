@@ -99,7 +99,7 @@
           
 
                   <div class="form-group" style='text-align:right'>
-                    <button class='btn btn-default'>Cancel</button>
+                    <button class='btn btn-default' type='reset ' data-dismiss="modal">Cancel</button>
                     <button type='submit' class='btn btn-primary'>Update</button>
                   </div>
                 </form>

@@ -8,7 +8,7 @@
 	
 	<fieldset>
 		@if(isset($his))
-		
+			
 			<legend>Business Status History report as of {{substr($his, 0, 7)}}</legend>
 
 		@else
@@ -118,7 +118,8 @@
 		@if(!isset($rate))
 		
 		<div class="col-xs-6" style='text-align:right'>
-
+		@if(!isset($his))
+		<div>
 			<a href="/forecast?days={{$days}}&total_days={{$total_days}}" class="btn btn-warning" style='min-width:100px'>Forecast</a>
 			<a href="{{url('/businessStatus')}}" class="btn btn-primary" style='min-width:100px'>Current</a>
 		
@@ -127,7 +128,18 @@
 			<a href="/web/viewer.html?file=/PDF/business_status/{{date('Y-m-d')}}.PDF" class="btn btn-success" style='min-width:100px' target="_blank">Print</a>
 		</div>
 
+		@else
+			
+			
+			<a href="/forecast?days={{$days}}&total_days={{$total_days}}" class="btn btn-warning" style='min-width:100px'>Forecast</a>
+			<a href="{{url('/businessStatus')}}" class="btn btn-primary" style='min-width:100px'>Current</a>
+		
+		
+			<a href="PDF/business_status_history/{{$his}}.PDF" class="btn btn-success" style='min-width:100px' download>Download</a>
+			<a href="/web/viewer.html?file=/PDF/business_status_history/{{$his}}.PDF" class="btn btn-success" style='min-width:100px' target="_blank">Print</a>
+			@endif
 
+			</div>
 		@else
 		<div class="col-xs-6" style='text-align:right'>
 			<a href="/forecast?days={{$days}}&total_days={{$total_days}}" class="btn btn-warning" style='min-width:100px'>Forecast</a>
