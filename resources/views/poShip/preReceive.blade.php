@@ -7,6 +7,7 @@
   <table class="table table-striped table-bordered text-center">
     <thead class='text-center'>
       <th class='text-center'>Item</th>
+      <th class='text-center'>Purno</th>
       <th class='text-center'>Shipped QTY </th>
       <th class='text-center'>Receive QTY </th>
     </thead>
@@ -14,7 +15,8 @@
       @foreach(session()->get('container_array') as $key=>$item)
         
         <tr @if($item[0]!=$item[1]) class='danger' @endif>
-          <td>{{$key}}</td>
+          <td>{{$item[3]}}</td>
+          <td>{{$item[2]}}</td>
           <td>{{$item[0]}}</td>
           <td>{{$item[1]}}</td>
         </tr>

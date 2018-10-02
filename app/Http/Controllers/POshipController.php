@@ -1123,14 +1123,13 @@ class POshipController extends Controller
     }
      public function pre_receive(Request $request){
         /**
-         * key item 1 shipped 2 received
+         * key item 0 shipped 1 received 2 purno 3 item 
          * @var array
          */
         $container_array=[];
 
         $reqno = $request->reqno;
 
-        
 
         $poship = POSHIP::where('reqno',$reqno)->where('qtyshp','>',0)->get();
 
@@ -1138,13 +1137,15 @@ class POshipController extends Controller
 
         foreach ($poship as $p) {
 
-            $receive_num = 'receive'.$p->item;
+            $receive_num = 'receive'.$p->item.$p->purno;
 
+            $container_array["$p->item.'-'.$p->purno"][3] = $p->item;
 
-            $container_array["$p->item"][0] = $p->qtyshp;
+            $container_array["$p->item.'-'.$p->purno"][0] = $p->qtyshp;
 
-            $container_array["$p->item"][1] = $request->$receive_num;
+            $container_array["$p->item.'-'.$p->purno"][1] = $request->$receive_num;
 
+            $container_array["$p->item.'-'.$p->purno"][2] = $p->purno;
 
         }
 
@@ -1158,6 +1159,8 @@ class POshipController extends Controller
 
 
         
+
+        
         return view('poShip.preReceive',compact('reqno'));
     }
 
@@ -1166,7 +1169,7 @@ class POshipController extends Controller
      */
     public function container_receive(Request $request){
         /**
-         * key item 1 qytshp 2 qtyrec
+         * key item 1 qytshp 2 qtyrec 3 purno 4 item
          * @var [type]
          */
         
@@ -1191,7 +1194,7 @@ class POshipController extends Controller
             
             // $receive = 'receive'.$item_poship->item;
 
-            $receive_num = $container_array["$item_poship->item"][1];
+            $receive_num = $container_array["$item_poship->item.'-'.$item_poship->purno"][1];
 
             /**
              * update supplier information

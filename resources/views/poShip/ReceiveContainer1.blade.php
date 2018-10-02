@@ -33,7 +33,7 @@
                         <td>{{$t->vpartno}}</td>
                         <td>{{$t->purno}}</td>
                         <td>{{$t->qtyshp}}</td>
-                        <td><input name='receive{{$t->item}}' value='{{$t->qtyshp}}' class='form-control'></td>
+                        <td><input name='receive{{$t->item.$t->purno}}' value='{{$t->qtyshp}}' class='form-control'></td>
                         <td>{{number_format(floatval($t->cost),2)}} </td>
                         <td>{{number_format(floatval($t->extcost),2)}}</td>
                     </tr>
