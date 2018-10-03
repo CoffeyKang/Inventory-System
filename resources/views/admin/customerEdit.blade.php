@@ -314,7 +314,7 @@
   
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-          <a href='/deleteClients/{{$customer->custno}}' type="submit" class="btn btn-success" id='doubleCheck'>Delete Customer</a>
+          <a href='/deleteClients/{{$customer->custno}}' type="submit" class="btn btn-success" id='doubleCheck_delete'>Delete Customer</a>
         </div>
       </div>
     </div>
