@@ -182,9 +182,13 @@ use App\FillUpSO;
 		
 		//$invno = '59451';
 
-	    $entire_invno_address = Araddr::where('invno',$invno)->first();
+		$entire_invno_mast = Armast::where('invno',$invno)->first();
+
+		$sono = $entire_invno_mast->ornum;
+
+	    $entire_invno_address = SoAddress::where('sono',$sono)->first();
 	    
-	    $entire_invno_mast = Armast::where('invno',$invno)->first();
+	    
 	    
 	    $entire_invno_details = TempInvoiceItem::where('invno',$invno)->paginate(7);
 
