@@ -92,6 +92,16 @@ class Coffey extends Controller
 	 */
 	public function coffey(){
 
+		$invoice = Armast::where('balance','!=',0)->get();
+
+		$i =1;
+
+		foreach ($invoice as $i) {
+			print_invoice_packing_slip($i->invno);
+
+			echo $i++."<br>";
+		}
+
 			// $pos = TEMP_PO::where('purno','3466')->get();
 
 			// foreach ($pos as $po){
