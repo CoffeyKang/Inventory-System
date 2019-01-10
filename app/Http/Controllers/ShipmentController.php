@@ -425,6 +425,7 @@ class ShipmentController extends Controller
 
         $update_customer_update = $customer_update->update([
             'lsale'=>$super_total,
+            'totsls'=>$customer_update->totsls + $super_total,
             'ldate'=>$request->shipdate,
             'balance'=>$customer_update->balance+$super_total,
             'onorder'=>$customer_update->onorder-$total_beforeTax-$non_tax_total]);

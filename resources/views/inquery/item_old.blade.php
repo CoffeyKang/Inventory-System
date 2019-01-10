@@ -254,9 +254,8 @@
                     <th class='col-xs-2 '>Item</th>
                     <th class='col-xs-1 '>Vendor</th>
                     <th class='col-xs-2 '>Vendor Part No.</th>
-                    <th class='col-xs-1 text-right'>Cost</th>
-                    <th class='col-xs-1 text-right'>QTY SHP</th>
-                    <th class='col-xs-2 text-right'>QTY REC</th>
+                    <th class='col-xs-2 '>QTY SHP</th>
+                    <th class='col-xs-2 '>QTY REC</th>
                 </tr>
             </thead>
             <tbody >
@@ -268,9 +267,8 @@
                     <td>{{$con->item}}</td>
                     <td>{{$con->vendno}}</td>
                     <td>{{$con->vpartno}}</td>
-                    <td class='text-right'>$ {{number_format($con->cost,2)}}</td>
-                    <td class='text-right'>{{$con->qtyshp}}</td>
-                    <td class='text-right'>{{$con->qtyrec}}</td>
+                    <td>{{$con->qtyshp}}</td>
+                    <td>{{$con->qtyrec}}</td>
                     
                 </tr>
                 @endforeach

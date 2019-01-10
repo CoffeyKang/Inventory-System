@@ -7,6 +7,8 @@ use App\CustAddress;
 
 use App\User;
 
+use App\SOMAST;
+
 use App\APDIST;
 
 use App\Arcash;
@@ -103,6 +105,8 @@ use App\FillUpSO;
 
 
 
+
+
 	function print_invoice($invno){
 		
 		//$invno = '59451';
@@ -130,9 +134,9 @@ use App\FillUpSO;
 	    $entire_invno_cust = Customer::where('custno',$entire_invno_mast->custno)->first();
 
 	     if ($entire_invno_mast->ornum) {
-            $currency = SalesOrder::find($entire_invno_mast->ornum)->taxdist;
+            $currency = SalesOrder::find($entire_invno_mast->ornum)?SalesOrder::find($entire_invno_mast->ornum)->taxdist:'CAD';
         }else{
-            $currency = $entire_invno_mast->current;
+            $currency = $entire_invno_mast->current?:'CAD';
         }
 
 	    $last = $entire_invno_details->lastPage();
@@ -2490,7 +2494,9 @@ use App\FillUpSO;
    		
 
    		
+   		Inventory::where('item','!=','8888888')->update(['ptdqty'=>0, 'ptdsls'=>0]);
 
+   		
 
 
     }
@@ -2785,6 +2791,116 @@ use App\FillUpSO;
 		PDF::loadView("PDF.history_business_pdf",compact('record'))
 		->save(public_path("PDF/business_status_history/".$data.".PDF"));
 	}
+
+	function InventoryExcelFile(){
+        // Generate and return the spreadsheet price 
+        Excel::create("InventoryExcelPrice", function($excel){
+            // Set the spreadsheet title, creator, and description
+            $excel->setTitle('Inventory Report');
+            $excel->setCreator('Visual Elements Image Studio Inc')->setCompany('Golden Leaf Automotive Inc.');
+            $excel->setDescription('Inventory file');
+            //sheet
+            $excel->sheet("date('Y-m-d')",function($sheet){
+                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip',"price",'make','year_from','year_end','length','height','width','lbs'])->get();
+                $sheet->fromModel($details,'0', 'A1', true)->setfitToWidth(true);
+                $sheet->cell('C1', function($cell) {$cell->setValue('Price');   });
+                $sheet->cells('A1:J1', function($cells) {
+                    $cells->setFont(array(
+                        'size'       => '12',
+                        'bold'       =>  true,
+                        'text-transform'=> 'uppercase'
+                    ));
+                });
+            })->store('XLS', './public/Excel/1/');
+        });
+
+        Excel::create("InventoryExcelPrice", function($excel){
+            // Set the spreadsheet title, creator, and description
+            $excel->setTitle('Inventory Report');
+            $excel->setCreator('Visual Elements Image Studio Inc')->setCompany('Golden Leaf Automotive Inc.');
+            $excel->setDescription('Inventory file');
+            //sheet
+            $excel->sheet("date('Y-m-d')",function($sheet){
+                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip',"price2",'make','year_from','year_end','length','height','width','lbs'])->get();
+                $sheet->fromModel($details,'0', 'A1', true)->setfitToWidth(true);
+                $sheet->cell('C1', function($cell) {$cell->setValue('Price');   });
+                
+                $sheet->cells('A1:J1', function($cells) {
+                    $cells->setFont(array(
+                        'size'       => '12',
+                        'bold'       =>  true,
+                        'text-transform'=> 'uppercase'
+                    ));
+                });
+            })->store('XLS', './public/Excel/2/');
+        });
+
+        Excel::create("InventoryExcelPrice", function($excel){
+            // Set the spreadsheet title, creator, and description
+            $excel->setTitle('Inventory Report');
+            $excel->setCreator('Visual Elements Image Studio Inc')->setCompany('Golden Leaf Automotive Inc.');
+            $excel->setDescription('Inventory file');
+            //sheet
+            $excel->sheet("date('Y-m-d')",function($sheet){
+                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip',"price3",'make','year_from','year_end','length','height','width','lbs'])->get();
+                $sheet->fromModel($details,'0', 'A1', true)->setfitToWidth(true);
+                $sheet->cell('C1', function($cell) {$cell->setValue('Price');   });
+                
+                $sheet->cells('A1:J1', function($cells) {
+                    $cells->setFont(array(
+                        'size'       => '12',
+                        'bold'       =>  true,
+                        'text-transform'=> 'uppercase'
+                    ));
+                });
+            })->store('XLS', './public/Excel/3/');
+        });
+
+        Excel::create("InventoryExcelPrice", function($excel){
+            // Set the spreadsheet title, creator, and description
+            $excel->setTitle('Inventory Report');
+            $excel->setCreator('Visual Elements Image Studio Inc')->setCompany('Golden Leaf Automotive Inc.');
+            $excel->setDescription('Inventory file');
+            //sheet
+            $excel->sheet("date('Y-m-d')",function($sheet){
+                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip',"price4",'make','year_from','year_end','length','height','width','lbs'])->get();
+                $sheet->fromModel($details,'0', 'A1', true)->setfitToWidth(true);
+                $sheet->cell('C1', function($cell) {$cell->setValue('Price');   });
+                $sheet->cells('A1:L1', function($cells) {
+                    $cells->setFont(array(
+                        'size'       => '12',
+                        'bold'       =>  true,
+                        'text-transform'=> 'uppercase'
+                    ));
+                });
+            })->store('XLS', './public/Excel/4/');
+        });  
+    }
+
+    function calculateCustomerOnorder(){
+
+    	$customer = Customer::all();
+    	$from = date('Y-01-01');
+    	$end = date("Y-12-31");
+
+    	foreach ($customer as $c) {
+    		
+    		$c->onorder = $c->so->sum('ordamt');
+
+    		// $Cytdsls = SalesOrder::whereBetween('ordate',[$from,$end])->where('custno',$c->custno)->get()->sum('ordamt');
+
+    		// $Cship = SalesOrder::whereBetween('ordate',[$from,$end])->where('custno',$c->custno)->get()->sum('shpamt');
+
+    		$ytd = Armast::whereBetween('invdte',[$from,$end])->where('custno',$c->custno)->get()->sum('invamt');
+    		
+    		$c->ytdsls = $ytd;
+
+    		$c->save();
+    	}
+
+    	
+
+    }
 
 	   	
 

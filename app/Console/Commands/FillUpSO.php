@@ -40,5 +40,8 @@ class FillUpSO extends Command
     public function handle()
     {
         renewFillUp();
+        InventoryExcelFile();
+        calculateCustomerOnorder();
+        
     }
 }

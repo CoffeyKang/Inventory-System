@@ -1743,7 +1743,7 @@ class ReceivableController extends Controller
         
         $paidamt += $discount;
 
-        $update_customer = $customer->update(['lastpay'=>$dtepaid,'lpymt'=>$paidamt,'balance'=>$customer->balance-$paidamt,'ytdsls'=>$customer->ytdsls + $paidamt]);
+        $update_customer = $customer->update(['lastpay'=>$dtepaid,'lpymt'=>$paidamt,'balance'=>$customer->balance-$paidamt,'ytdsls'=>$customer->ytdsls + $paidamt,'totsls'=>$customer->totsls + $paidamt]);
 
         //over pay
         //calculate overpay should minus the discount
@@ -2527,6 +2527,9 @@ class ReceivableController extends Controller
         
         $customer->balance = $customer->balance - $super_total;
 
+        
+
+        $customer->totsls = $customer->totsls - $super_total;
         
         $customer->save();
 

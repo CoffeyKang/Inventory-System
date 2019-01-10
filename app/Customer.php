@@ -26,7 +26,7 @@ class Customer extends Model
     // status : 1 normal customer, 0 deleted customer
     protected $fillable = ['lastpay','balance','lpymt','ldate','lsale','onorder','company','type',
     'phone','address1','faxno','city','state','zip','country','contact','salesmn','terr','title',
-    'pricecode','indust','tax','limit','taxdist','source','comment','pterms','ytdsls','status'];
+    'pricecode','indust','tax','limit','taxdist','source','comment','pterms','ytdsls','status','totsls'];
     /**
      * inquery Order
      */
@@ -205,8 +205,7 @@ class Customer extends Model
         if (
             $this->onorder==0.0 &&
             $this->balance==0.0 &&
-            $this->ytdsls==0.0 &&
-            $this->ptdsls==0.0
+            $this->ytdsls==0.0 
             ) {
             return true;
         }else{

@@ -80,6 +80,8 @@ use App\POShipTo;
 
 use App\FillUpSO;
 
+use App\HIS_ARTRN;
+
 
 
 
@@ -91,16 +93,29 @@ class Coffey extends Controller
 	 * @return [type] [description]
 	 */
 	public function coffey(){
+		calculateCustomerOnorder();
+		// $c = Customer::where('custno','A0001')->first();
 
-		$invoice = Armast::where('balance','!=',0)->get();
+		// $c->balance = 1419.85;
+		// $c->save();
 
-		$i =1;
+		// $his = HIS_ARTRN::where('invno','68455')->get()->toArray();
 
-		foreach ($invoice as $i) {
-			print_invoice_packing_slip($i->invno);
+		
+		// TempInvoiceItem::insert($his);
 
-			echo $i++."<br>";
-		}
+
+
+		
+		// $invoice = Armast::where('balance','!=',0)->get();
+
+		// $i =1;
+
+		// foreach ($invoice as $i) {
+		// 	print_invoice_packing_slip($i->invno);
+
+		// 	echo $i++."<br>";
+		// }
 
 			// $pos = TEMP_PO::where('purno','3466')->get();
 

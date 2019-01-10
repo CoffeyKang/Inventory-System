@@ -18,6 +18,8 @@ use App\FullySO;
 
 use App\HIS_ARMST;
 
+use App\Armast;
+
 class HistoryController extends Controller
 {
     //customer history
@@ -74,7 +76,7 @@ class HistoryController extends Controller
             return view('history.customerHistory',compact('customer','soytrnHist'));
         }elseif($type=='Invoice'){
             
-            $invoiceHist = $customer->arymst($custno,$from,$end);
+            $invoiceHist = $customer->inqueryInvoice($custno,$from,$end);
 
             return view('history.customerHistory',compact('customer','invoiceHist'));
         
@@ -257,7 +259,13 @@ class HistoryController extends Controller
             
             $month_end = date('Y-m-t', strtotime("-$i month"));
 
-            $total = HIS_ARMST::where('custno',$custno)->whereBetween('invdte',[$month_begin, $month_end])->get()->sum('invamt');
+            if ($month_begin<=date('2017-07-01')) {
+                $total = HIS_ARMST::where('custno',$custno)->whereBetween('invdte',[$month_begin, $month_end])->get()->sum('invamt');
+            }else{
+                $total = Armast::where('custno',$custno)->whereBetween('invdte',[$month_begin, $month_end])->get()->sum('invamt');
+            }
+
+            
             
             $sales_array[$time_key]=round($total,2);
             

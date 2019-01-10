@@ -206,6 +206,10 @@
 				<div class="col-xs-7">Lst Pmt</div>
 				<div class="col-xs-5">{{$customer->lastpay}}</div>
 			</div>
+			<div class="col-xs-4">
+				<div class="col-xs-7">TOTSLS</div>
+				<div class="col-xs-5">{{$customer->totsls}}</div>
+			</div>
 
 
 			
