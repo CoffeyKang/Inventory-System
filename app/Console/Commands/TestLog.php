@@ -40,5 +40,6 @@ class TestLog extends Command
     public function handle()
     {
         montylyHistoryCalculate();
+        itemYTD();
     }
 }

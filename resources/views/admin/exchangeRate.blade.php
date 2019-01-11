@@ -36,7 +36,7 @@
     $(document).ready(function(){
         $.ajax({
                 type : 'get',
-                url : "{{url('http://www.apilayer.net/api/live?access_key=2418bb0daf1fc17d89ecd75572875568')}}",
+                url : "{{url('https://www.apilayer.net/api/live?access_key=2418bb0daf1fc17d89ecd75572875568')}}",
                 success:function(data){
                     console.log(data.quotes.USDCAD);
                     $("#exchangeRate").val(data.quotes.USDCAD);

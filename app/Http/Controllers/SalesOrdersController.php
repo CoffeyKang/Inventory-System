@@ -559,7 +559,7 @@ class SalesOrdersController extends Controller
             }else{
                 
                 
-                $so = SalesOrder::orderBy('sono','desc')->first()->sono;
+                $so = SalesOrder::orderBy('sono','desc')->first()?SalesOrder::orderBy('sono','desc')->first()->sono:100000;
 
                 $newSo =$so+1;
             }

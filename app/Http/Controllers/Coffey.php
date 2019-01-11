@@ -93,7 +93,36 @@ class Coffey extends Controller
 	 * @return [type] [description]
 	 */
 	public function coffey(){
-		calculateCustomerOnorder();
+		$inventory = Inventory::all();
+
+		foreach ($inventory as $item) {
+			$height = floatval ($item->height)?:0;
+
+			$length = floatval ($item->length)?:0;
+
+			$width = floatval ($item->width)?:0;
+
+
+
+			$cupt = (($height * $length * $width / 1728) * 100) / 100;
+
+			if ($cupt<=0.1) {
+				$cupt =0.1;
+			}else{
+
+			}
+
+			$item->cupt = $cupt;
+
+			$item->save();
+		}
+		// $customer = Customer::all();
+
+		// foreach ($customer as $c) {
+		// 	$tot = HIS_ARMST::where('custno',$c->custno)->get()->sum('invamt');
+		// 	$c->totsls = $tot;
+		// 	$c->save();
+		// }
 		// $c = Customer::where('custno','A0001')->first();
 
 		// $c->balance = 1419.85;

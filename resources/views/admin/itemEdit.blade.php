@@ -503,7 +503,7 @@ $_GET['form'] = 0;
 
         $width = $('#width').val();
 
-        $cuft = (($height * $length * $width / 1728) * 100) / 100;
+        $cuft = Math.round($height * $length * $width / 1728 * 100) / 100;
 
         console.log($cuft);
         

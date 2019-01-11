@@ -97,6 +97,7 @@ use App\POShipTo;
 
 use App\FillUpSO;
 
+use Illuminate\Support\Facades\Log;
 
 
 
@@ -2896,11 +2897,15 @@ use App\FillUpSO;
     		$c->ytdsls = $ytd;
 
     		$c->save();
-		}
+    	}
+    	
 
-	}
 
-	function itemYTD(){
+    	
+
+    }
+
+    function itemYTD(){
     	$item = Inventory::all();
     	$month_begin = date('Y-m-1');
     	$month_end = date('Y-m-t');
@@ -2920,8 +2925,8 @@ use App\FillUpSO;
     		$i->save();
     	}
     }
-	
-	function setPtd(){
+
+    function setPtd(){
 		/**	set customer ptd*/
 
 		// not used
@@ -2931,7 +2936,7 @@ use App\FillUpSO;
 		$item = Inventory::all();
 
 		foreach ($item as $i) {
-
+			
 			$i->ptdqty = 0;
 
 			$i->ptdsls = 0;

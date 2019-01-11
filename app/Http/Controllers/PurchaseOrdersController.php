@@ -692,7 +692,7 @@ class PurchaseOrdersController extends Controller
 
             }else{
                 
-                $po = PO::orderBy('purno','desc')->first()->purno;
+                $po = PO::orderBy('purno','desc')->first()?PO::orderBy('purno','desc')->first()->purno:10000;
 
                 $newPO =$po+1;
             }
