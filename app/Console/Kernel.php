@@ -15,6 +15,9 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\TestLog::class,
         Commands\FillUpSO::class,
+        Commands\InventoryExcelForWeb::class,
+        Commands\MonthlySetPTD::class,
+        Commands\YearlySetYTD::class,
     ];
 
     /**
@@ -24,15 +27,27 @@ class Kernel extends ConsoleKernel
      * @return void
      */
     protected function schedule(Schedule $schedule)
-    {
+    {   
+        //** business status  */
         $schedule->command('TestLog:james')
                  ->monthlyOn(date('t'), '23:23');
-                 // ->everyMinute();
         
         $schedule->command('FillUpSO:fillupSO')
-                 ->everyMinute();          
+                 ->everyMinute();     
+                 
+        $schedule->command('InventoryExcelForWeb:InventoryExcelForWeb')
+                 ->dailyAt('23:45');   
                   
-    }
+        $schedule->command('MonthlySetPTD:MonthlySetPTD')
+                 ->monthlyOn(date('t'), '23:23');
+        
+        $schedule->command('YearlySetYTD:YearlySetYTD')
+                 ->dailyAt('23:45')
+                 ->when(function(){
+                     return date('Y-m-d') == date('Y-12-31'); 
+                 });
+        
+    }   
 
     /**
      * Register the Closure based commands for the application.

@@ -6,21 +6,21 @@ use Illuminate\Console\Command;
 
 use Illuminate\Support\Facades\Log;
 
-class FillUpSO extends Command
+class InventoryExcelForWeb extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'FillUpSO:fillupSO';
+    protected $signature = 'InventoryExcelForWeb:InventoryExcelForWeb';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'this is to fill up so every minute';
+    protected $description = 'Generating inventory excel files for gla web every day, so that the dealers can download from web';
 
     /**
      * Create a new command instance.
@@ -39,9 +39,8 @@ class FillUpSO extends Command
      */
     public function handle()
     {
-        renewFillUp();
-        // InventoryExcelFile();
-        // calculateCustomerOnorder();
-        
+        InventoryExcelFile();
+        LOG::useFiles(storage_path('logs/Generating InventoryExcelFile.log'));
+        LOG::info("Generat successfully, date('Y-m-d')");
     }
 }

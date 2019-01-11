@@ -2896,11 +2896,74 @@ use App\FillUpSO;
     		$c->ytdsls = $ytd;
 
     		$c->save();
+		}
+
+	}
+
+	function itemYTD(){
+    	$item = Inventory::all();
+    	$month_begin = date('Y-m-1');
+    	$month_end = date('Y-m-t');
+    	foreach ($item as $i) {
+    		// year
+    		$ytd = TempInvoiceItem::where('item',$i->item)->whereBetween('invdte',[$from,$end])->get()->sum('qtyshp');
+    		$ytdsls = TempInvoiceItem::where('item',$i->item)->whereBetween('invdte',[$from,$end])->get()->sum('extprice');
+    		$i->ytdqty = $ytd;
+    		$i->ytdsls = $ytdsls;
+
+    		// month
+    		$ptd = TempInvoiceItem::where('item',$i->item)->whereBetween('invdte',[$month_begin,$month_end])->get()->sum('qtyshp');
+    		$ptdsls = TempInvoiceItem::where('item',$i->item)->whereBetween('invdte',[$month_begin,$month_end])->get()->sum('extprice');
+    		$i->ptdqty = $ptd;
+    		$i->ptdsls = $ptdsls;
+
+    		$i->save();
     	}
-
-    	
-
     }
+	
+	function setPtd(){
+		/**	set customer ptd*/
+
+		// not used
+
+		/**	set item ptd 0 */
+
+		$item = Inventory::all();
+
+		foreach ($item as $i) {
+
+			$i->ptdqty = 0;
+
+			$i->ptdsls = 0;
+
+			$i->save();
+		}
+	}
+
+	function setYTD(){
+		/**customer  */
+		$customers = Customer::all();
+
+		foreach ($customers as $c) {
+			$c->ytdsls=0;
+			$c->save();
+		}
+
+		$item = Inventory::all();
+
+		foreach ($item as $i) {
+
+			$i->ytdsls = 0;
+
+			$i->ytdqty = 0;
+
+			$i->save();
+		}
+
+		/**	invnetory */
+
+
+	}
 
 	   	
 

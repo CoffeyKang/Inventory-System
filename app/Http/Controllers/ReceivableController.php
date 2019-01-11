@@ -2497,21 +2497,9 @@ class ReceivableController extends Controller
 
         if($invoice_mast->artype=='M'){
 
-
-
-
-
-
-
-
-
-
-
             $customer->balance = $customer->balance - $super_total;
-
         
             $customer->save();
-
 
             TempInvoiceItem::where('invno',$invno)->delete(); 
 
@@ -2527,7 +2515,7 @@ class ReceivableController extends Controller
         
         $customer->balance = $customer->balance - $super_total;
 
-        
+        $customer->ytdsls = $customer->ytdsls - $super_total;
 
         $customer->totsls = $customer->totsls - $super_total;
         
@@ -2572,7 +2560,7 @@ class ReceivableController extends Controller
              */
             $iteminfo->totqty = $iteminfo->totqty - $qtyshp;
  
-            $iteminfo->totsls = $iteminfo->ptdsls - $extprice;
+            $iteminfo->totsls = $iteminfo->totsls - $extprice;
  
 
 

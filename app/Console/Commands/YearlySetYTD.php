@@ -4,23 +4,21 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use Illuminate\Support\Facades\Log;
-
-class FillUpSO extends Command
+class YearlySetYTD extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'FillUpSO:fillupSO';
+    protected $signature = 'YearlySetYTD:YearlySetYTD';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'this is to fill up so every minute';
+    protected $description = 'YearlySetYTD 0';
 
     /**
      * Create a new command instance.
@@ -39,9 +37,8 @@ class FillUpSO extends Command
      */
     public function handle()
     {
-        renewFillUp();
-        // InventoryExcelFile();
-        // calculateCustomerOnorder();
-        
+        setYTD();
+        LOG::useFiles(storage_path('logs/SetYtd0.log'));
+        LOG::info("Successfully, date('Y-m-d')");
     }
 }

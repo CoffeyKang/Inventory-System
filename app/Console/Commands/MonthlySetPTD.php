@@ -4,23 +4,21 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use Illuminate\Support\Facades\Log;
-
-class FillUpSO extends Command
+class MonthlySetPTD extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'FillUpSO:fillupSO';
+    protected $signature = 'MonthlySetPTD:MonthlySetPTD';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'this is to fill up so every minute';
+    protected $description = 'MonthlySetPTD';
 
     /**
      * Create a new command instance.
@@ -39,9 +37,11 @@ class FillUpSO extends Command
      */
     public function handle()
     {
-        renewFillUp();
-        // InventoryExcelFile();
-        // calculateCustomerOnorder();
-        
+        setPtd();
+        /** double check customer ytd sls and on order and item ytd and ptd*/
+        calculateCustomerOnorder();
+        itemYTD();
+        LOG::useFiles(storage_path('logs/SetPTD0.log'));
+        LOG::info("Successfully, date('Y-m-d')");
     }
 }
