@@ -1913,7 +1913,7 @@ class AdminController extends Controller
       
       $item = $request->item;
       
-      $make =$request->model;
+      $make =strtoupper($request->model);
 
       $yearbeg = $request->yearbeg;
 
