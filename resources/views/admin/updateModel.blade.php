@@ -60,29 +60,29 @@
                         <td>{{$item}}</td>
                         <td><input type="text" name='model' value="{{$i->make}}"></td>
                         <td><button class="btn btn-success">Update</button>
-                            <a href="#" class="btn btn-danger"  data-toggle="modal" data-target="#myModal">Delete</a></td>
+                        <a href="#" class="btn btn-danger"  data-toggle="modal" data-target="#myModal{{$i->row_id}}">Delete</a></td>
                     </tr> 
                 </form>       
-    
+                <div class="modal fade" id="myModal{{$i->row_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content ">
+                            <div class="modal-header   ">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-body" id="myModalLabel">Are you sure to Delete the Model?</h4>
+                            </div>
+                
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <a href='/admin/delete_model?item={{$item}}&&make={{$i->make}}' class="btn btn-danger" id='doubleCheck'>Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             @endforeach
         </tbody>
     </table>
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content ">
-        <div class="modal-header   ">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-body" id="myModalLabel">Are you sure to Delete the Model?</h4>
-        </div>
-        
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <a href='/admin/delete_model?item={{$item}}&&make={{$i->make}}' class="btn btn-danger" id='doubleCheck'>Delete</a>
-        </div>
-      </div>
-    </div>
-  </div>
+    
 
     </fieldset>
     <fieldset>
