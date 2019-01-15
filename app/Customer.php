@@ -12,6 +12,8 @@ use DB;
 
 use App\customerNote;
 
+use App\HIS_ARYCSH;
+
 class Customer extends Model
 {
     //table
@@ -136,7 +138,11 @@ class Customer extends Model
      * inquiry invoice details history
      */
     public static function payment($custno,$from,$end){
-        return DB::table('new_arycsh01')->whereBetween('dtepaid',[$from,$end])->where('custno',$custno)->paginate(10);
+        if ($from <= date('2017-07-31')) {
+            return HIS_ARYCSH::whereBetween('dtepaid',[$from,$end])->where('custno',$custno)->paginate(10);
+        }else{
+            return Arcash::whereBetween('dtepaid',[$from,$end])->where('custno',$custno)->paginate(10);
+        }
     }
 
     /**

@@ -14,11 +14,18 @@ use App\PO;
 
 use App\Inventory;
 
+use App\HIS_SOMAST;
+
 use App\FullySO;
 
 use App\HIS_ARMST;
 
 use App\Armast;
+
+use App\Arcash;
+
+use App\HIS_ARYCSH;
+
 
 class HistoryController extends Controller
 {
@@ -67,24 +74,55 @@ class HistoryController extends Controller
             
             $soymstHist = $customer->somastHistory($custno, $from, $end);
 
-            return view('history.customerHistory',compact('customer','soymstHist'));
+            if ($from<= date('2017-07-31')) {
+               $total = HIS_SOMAST::whereBetween('ordate',[$from,$end])->where('custno',$custno)->get()->sum('ordamt');
+
+               $total += HIS_SOMAST::whereBetween('ordate',[$from,$end])->where('custno',$custno)->get()->sum('shpamt');
+            }else{
+                $total = SalesOrder::whereBetween('ordate',[$from,$end])->where('custno',$custno)->get()->sum('ordamt');
+
+                $total += SalesOrder::whereBetween('ordate',[$from,$end])->where('custno',$custno)->get()->sum('shpamt');
+            }
+
+            customerSalesOrderPDF($custno, $from, $end);
+
+            return view('history.customerHistory',compact('customer','soymstHist','total','from','end'));
         
         }elseif ($type=='SalesOrdersDetails') {
             
             $soytrnHist = $customer->soytrnHist($custno,$from,$end);
+
+            
 
             return view('history.customerHistory',compact('customer','soytrnHist'));
         }elseif($type=='Invoice'){
             
             $invoiceHist = $customer->inqueryInvoice($custno,$from,$end);
 
-            return view('history.customerHistory',compact('customer','invoiceHist'));
+            if ($from<= date('2017-07-31')) {
+               $total = HIS_ARMST::orderBy('invno','desc')->where('custno',$custno)->whereBetween('invdte',[$from,$end])->get()->sum('invamt');
+            }else{
+                $total = Armast::orderBy('invno','desc')->where('custno',$custno)->whereBetween('invdte',[$from,$end])->get()->sum('invamt');
+            }
+
+
+            customerInvoicePDF($custno, $from, $end);
+
+            return view('history.customerHistory',compact('customer','invoiceHist','total','from','end'));
         
         }elseif($type=='Payment'){
 
             $payment = $customer->payment($custno,$from,$end);
 
-            return view('history.customerHistory',compact('customer','payment'));
+            if ($from<= date('2017-07-31')) {
+               $total = HIS_ARYCSH::whereBetween('dtepaid',[$from,$end])->where('custno',$custno)->get()->sum('paidamt');
+            }else{
+                $total = Arcash::whereBetween('dtepaid',[$from,$end])->where('custno',$custno)->get()->sum('paidamt');
+            }
+
+            customerPaymentPDF($custno, $from, $end);
+
+            return view('history.customerHistory',compact('customer','payment','total','from','end'));
 
         }elseif($type=='Shipments'){
             
@@ -279,6 +317,7 @@ class HistoryController extends Controller
         $second_half = $total - $first_half;
 
         $customer = Customer::find($custno);
+
         return view('history.Month24History',compact('customer','sales_array','first_half','second_half'));
     }
 }

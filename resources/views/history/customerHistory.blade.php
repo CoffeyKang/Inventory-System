@@ -88,8 +88,8 @@
                     <td>{{$so->ordate}}</td>
                     <td>{{$so->salesmn}}</td>
                     <td>{{$so->ponum}}</td>
-                    <td>{{number_format($so->ordamt,2)}}</td>
-                    <td>{{number_format($so->shpamt,2)}}</td>
+                    <td>${{number_format($so->ordamt,2)}}</td>
+                    <td>${{number_format($so->shpamt,2)}}</td>
                     
                 </tr>
 
@@ -98,7 +98,11 @@
 
             </tbody>
         </table>
-
+        <div class="text-center">
+            <b>FROM:{{$from}} TO {{$end}} <br>Total : ${{number_format($total,2)}}</b><br>
+            <a href="/PDF/customer_SO/customer_SO{{$customer->custno}}.PDF" class="btn btn-success" style='min-width:133px'
+                download>Download</a>
+        </div>
         <div style='text-align:center'>
             {{$soymstHist->appends(['custno'=>$customer->custno,'type'=>$_GET['type'],'from'=>$_GET['from'],'end'=>$_GET['end']])->links()}}
         </div>
@@ -138,6 +142,7 @@
                 @endforeach
             </tbody>
         </table>
+        
         <div style='text-align:center'>
             {{$soytrnHist->appends(['custno'=>$customer->custno,'type'=>$_GET['type'],'from'=>$_GET['from'],'end'=>$_GET['end']])->links()}}
         </div>
@@ -184,6 +189,13 @@
                 @endforeach
             </tbody>
         </table>
+
+        <div class="text-center">
+            <b>FROM:{{$from}} TO {{$end}} <br>Total : ${{number_format($total,2)}}</b><br>
+            <a href="/PDF/customer_invoice/customer_invoice{{$customer->custno}}.PDF" class="btn btn-success" style='min-width:133px'
+                download>Download</a>
+        </div>
+
         <div style='text-align:center'>
             {{$invoiceHist->appends(['custno'=>$customer->custno,'type'=>$_GET['type'],'from'=>$_GET['from'],'end'=>$_GET['end']])->links()}}
         </div>
@@ -203,6 +215,7 @@
                     <th class=''>Discount</th>
                     <th class=''>Amt Paid</th>
                 </tr>
+                
             </thead>
             <tbody >
                 @foreach($payment as $so)
@@ -230,6 +243,10 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="text-center">
+            <b>FROM:{{$from}} TO {{$end}} <br>Total : ${{number_format($total,2)}}</b><br>
+            <a href="/PDF/customer_payment/customer_payment{{$customer->custno}}.PDF" class="btn btn-success" style='min-width:133px' download>Download</a>
+        </div>
         <div style='text-align:center'>
             {{$payment->appends(['custno'=>$customer->custno,'type'=>$_GET['type'],'from'=>$_GET['from'],'end'=>$_GET['end']])->links()}}
         </div>

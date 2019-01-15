@@ -2802,10 +2802,10 @@ use Illuminate\Support\Facades\Log;
             $excel->setDescription('Inventory file');
             //sheet
             $excel->sheet("date('Y-m-d')",function($sheet){
-                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip',"price",'make','year_from','year_end','length','height','width','lbs'])->get();
+                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip','pricel', "price",'make','year_from','year_end','length','height','width','lbs'])->get();
                 $sheet->fromModel($details,'0', 'A1', true)->setfitToWidth(true);
-                $sheet->cell('C1', function($cell) {$cell->setValue('Price');   });
-                $sheet->cells('A1:J1', function($cells) {
+                $sheet->cell('D1', function($cell) {$cell->setValue('Price');   });
+                $sheet->cells('A1:K1', function($cells) {
                     $cells->setFont(array(
                         'size'       => '12',
                         'bold'       =>  true,
@@ -2822,11 +2822,11 @@ use Illuminate\Support\Facades\Log;
             $excel->setDescription('Inventory file');
             //sheet
             $excel->sheet("date('Y-m-d')",function($sheet){
-                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip',"price2",'make','year_from','year_end','length','height','width','lbs'])->get();
+                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip','pricel',"price2",'make','year_from','year_end','length','height','width','lbs'])->get();
                 $sheet->fromModel($details,'0', 'A1', true)->setfitToWidth(true);
-                $sheet->cell('C1', function($cell) {$cell->setValue('Price');   });
+                $sheet->cell('D1', function($cell) {$cell->setValue('Price');   });
                 
-                $sheet->cells('A1:J1', function($cells) {
+                $sheet->cells('A1:K1', function($cells) {
                     $cells->setFont(array(
                         'size'       => '12',
                         'bold'       =>  true,
@@ -2843,11 +2843,11 @@ use Illuminate\Support\Facades\Log;
             $excel->setDescription('Inventory file');
             //sheet
             $excel->sheet("date('Y-m-d')",function($sheet){
-                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip',"price3",'make','year_from','year_end','length','height','width','lbs'])->get();
+                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip','pricel',"price3",'make','year_from','year_end','length','height','width','lbs'])->get();
                 $sheet->fromModel($details,'0', 'A1', true)->setfitToWidth(true);
-                $sheet->cell('C1', function($cell) {$cell->setValue('Price');   });
+                $sheet->cell('D1', function($cell) {$cell->setValue('Price');   });
                 
-                $sheet->cells('A1:J1', function($cells) {
+                $sheet->cells('A1:K1', function($cells) {
                     $cells->setFont(array(
                         'size'       => '12',
                         'bold'       =>  true,
@@ -2864,10 +2864,10 @@ use Illuminate\Support\Facades\Log;
             $excel->setDescription('Inventory file');
             //sheet
             $excel->sheet("date('Y-m-d')",function($sheet){
-                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip',"price4",'make','year_from','year_end','length','height','width','lbs'])->get();
+                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip','pricel',"price4",'make','year_from','year_end','length','height','width','lbs'])->get();
                 $sheet->fromModel($details,'0', 'A1', true)->setfitToWidth(true);
-                $sheet->cell('C1', function($cell) {$cell->setValue('Price');   });
-                $sheet->cells('A1:L1', function($cells) {
+                $sheet->cell('D1', function($cell) {$cell->setValue('Price');   });
+                $sheet->cells('A1:K1', function($cells) {
                     $cells->setFont(array(
                         'size'       => '12',
                         'bold'       =>  true,
@@ -2973,5 +2973,74 @@ use Illuminate\Support\Facades\Log;
 	   	
 
 
+	/**	PDF , CUSTOMER HISTORY PAYMENT */
+	function customerPaymentPDF($custno, $from, $end){
+		if(!file_exists(public_path("PDF/customer_payment/"))){
+			
+			mkdir(public_path("PDF/customer_payment/"));
+		
+		}else{}
 
+		$customer = Customer::where('custno',$custno)->first();
+		  
+		// if ($from <= date('201-07-31')) {
+        //     $payments = HIS_ARYCSH::whereBetween('dtepaid',[$from,$end])->where('custno',$custno)->get();
+        // }else{
+            $payments = Arcash::whereBetween('dtepaid',[$from,$end])->where('custno',$custno)->get();
+        // }
+		
+		$total = $payments->sum('paidamt');
+		
+
+		PDF::loadView("PDF.customer_payment",compact('customer','from','end','payments','total'))
+		->save(public_path("PDF/customer_payment/customer_payment".$custno.".PDF"));
+	}
+
+	/**	PDF , CUSTOMER HISTORY PAYMENT */
+	function customerInvoicePDF($custno, $from, $end){
+		if(!file_exists(public_path("PDF/customer_invoice/"))){
+			
+			mkdir(public_path("PDF/customer_invoice/"));
+		
+		}else{}
+
+		$customer = Customer::where('custno',$custno)->first();
+		  
+		// if ($from <= date('201-07-31')) {
+        //     $payments = HIS_ARYCSH::whereBetween('dtepaid',[$from,$end])->where('custno',$custno)->get();
+        // }else{
+            $invoice = Armast::orderBy('invno','desc')->where('custno',$custno)->whereBetween('invdte',[$from,$end])->get();
+        // }
+		
+		$total = $invoice->sum('invamt');
+		
+
+		PDF::loadView("PDF.customer_invoice",compact('customer','from','end','invoice','total'))
+		->save(public_path("PDF/customer_invoice/customer_invoice".$custno.".PDF"));
+	}
+
+
+/**	PDF , CUSTOMER HISTORY PAYMENT */
+	function customerSalesOrderPDF($custno, $from, $end){
+		if(!file_exists(public_path("PDF/customer_SO/"))){
+			
+			mkdir(public_path("PDF/customer_SO/"));
+		
+		}else{}
+
+		$customer = Customer::where('custno',$custno)->first();
+		  
+		// if ($from <= date('201-07-31')) {
+        //     $payments = HIS_ARYCSH::whereBetween('dtepaid',[$from,$end])->where('custno',$custno)->get();
+        // }else{
+            $so = SalesOrder::whereBetween('ordate',[$from,$end])->where('custno',$custno)->get();
+        // }
+		
+		$total = $so->sum('ordamt');
+
+		$total += $so->sum('shpamt');
+
+		PDF::loadView("PDF.customer_SO",compact('customer','from','end','so','total'))
+		->save(public_path("PDF/customer_SO/customer_SO".$custno.".PDF"));
+	}
  ?>
