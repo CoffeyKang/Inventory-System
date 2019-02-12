@@ -444,7 +444,7 @@ class informationController extends Controller
 
             "exchangerate" =>$request->exchangerate,
 
-            "CADcost" =>round($item_cost*$request->exchangerate,2),
+            
 
             "weight" => $request->weight,
             
@@ -465,6 +465,10 @@ class informationController extends Controller
             'model'=>$request->model,
 
             'vpartno' =>$request->supplier_vpart_number,
+
+            'cost' =>$request->cost,
+
+            "CADcost" =>round($request->cost*$request->exchangerate,2),
             
             ]);
 

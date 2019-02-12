@@ -2802,7 +2802,7 @@ use Illuminate\Support\Facades\Log;
             $excel->setDescription('Inventory file');
             //sheet
             $excel->sheet("date('Y-m-d')",function($sheet){
-                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip','pricel', "price",'make','year_from','year_end','length','height','width','lbs'])->get();
+                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip',"pricel","price",'make','year_from','year_end','length','height','width','lbs'])->get();
                 $sheet->fromModel($details,'0', 'A1', true)->setfitToWidth(true);
                 $sheet->cell('D1', function($cell) {$cell->setValue('Price');   });
                 $sheet->cells('A1:K1', function($cells) {
@@ -2822,7 +2822,7 @@ use Illuminate\Support\Facades\Log;
             $excel->setDescription('Inventory file');
             //sheet
             $excel->sheet("date('Y-m-d')",function($sheet){
-                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip','pricel',"price2",'make','year_from','year_end','length','height','width','lbs'])->get();
+                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip',"pricel","price2",'make','year_from','year_end','length','height','width','lbs'])->get();
                 $sheet->fromModel($details,'0', 'A1', true)->setfitToWidth(true);
                 $sheet->cell('D1', function($cell) {$cell->setValue('Price');   });
                 
@@ -2843,7 +2843,7 @@ use Illuminate\Support\Facades\Log;
             $excel->setDescription('Inventory file');
             //sheet
             $excel->sheet("date('Y-m-d')",function($sheet){
-                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip','pricel',"price3",'make','year_from','year_end','length','height','width','lbs'])->get();
+                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip',"pricel","price3",'make','year_from','year_end','length','height','width','lbs'])->get();
                 $sheet->fromModel($details,'0', 'A1', true)->setfitToWidth(true);
                 $sheet->cell('D1', function($cell) {$cell->setValue('Price');   });
                 
@@ -2864,7 +2864,7 @@ use Illuminate\Support\Facades\Log;
             $excel->setDescription('Inventory file');
             //sheet
             $excel->sheet("date('Y-m-d')",function($sheet){
-                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip','pricel',"price4",'make','year_from','year_end','length','height','width','lbs'])->get();
+                $details = Inventory::where('stkcode','!=','N')->where('display',1)->select(['item','descrip',"pricel","price4",'make','year_from','year_end','length','height','width','lbs'])->get();
                 $sheet->fromModel($details,'0', 'A1', true)->setfitToWidth(true);
                 $sheet->cell('D1', function($cell) {$cell->setValue('Price');   });
                 $sheet->cells('A1:K1', function($cells) {
@@ -2970,9 +2970,6 @@ use Illuminate\Support\Facades\Log;
 
 	}
 
-	   	
-
-
 	/**	PDF , CUSTOMER HISTORY PAYMENT */
 	function customerPaymentPDF($custno, $from, $end){
 		if(!file_exists(public_path("PDF/customer_payment/"))){
@@ -3043,4 +3040,26 @@ use Illuminate\Support\Facades\Log;
 		PDF::loadView("PDF.customer_SO",compact('customer','from','end','so','total'))
 		->save(public_path("PDF/customer_SO/customer_SO".$custno.".PDF"));
 	}
+
+	/**	PDF , CUSTOMER HISTORY PAYMENT */
+	function itemMarginPDF(){
+		if(!file_exists(public_path("PDF/itemMargin/"))){
+			
+			mkdir(public_path("PDF/itemMargin/"));
+		
+		}else{}
+
+				$items = Inventory::whereColumn('cost','>','price4')
+				->where('stkcode','Y')->orWhereColumn('cost','>','price')
+				->where('stkcode','Y')->select(['item','price','cost','CADcost','price2','price3','price4'])->get();
+
+
+		PDF::loadView("PDF.itemMargin",compact('items'))
+		->save(public_path("PDF/itemMargin/itemMargin.PDF"));
+	}
+
+	   	
+
+
+
  ?>

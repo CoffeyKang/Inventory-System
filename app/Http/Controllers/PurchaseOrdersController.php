@@ -692,7 +692,7 @@ class PurchaseOrdersController extends Controller
 
             }else{
                 
-                $po = PO::orderBy('purno','desc')->first()?PO::orderBy('purno','desc')->first()->purno:10000;
+                $po = PO::orderBy('purno','desc')->first()->purno;
 
                 $newPO =$po+1;
             }
@@ -1188,7 +1188,7 @@ class PurchaseOrdersController extends Controller
         //echo count($order);
 
         //---------------
-        $po = PO::orderBy('purno','desc')->first()?PO::orderBy('purno','desc')->first()->purno:10000;
+        $po = PO::orderBy('purno','desc')->first()->purno;
 
         $newPO =$po+1;
 
@@ -1985,6 +1985,12 @@ class PurchaseOrdersController extends Controller
         return redirect()->action('PurchaseOrdersController@EntirePurchaseOrder',compact('purno'));
     }
 
+
+     public function itemMarginReport(){
+        $items = Inventory::whereColumn('cost','>','price4')->where('stkcode','Y')->orWhereColumn('cost','>','price')->where('stkcode','Y')->select(['item','price','cost','CADcost','price2','price3','price4'])->paginate(18);
+        itemMarginPDF();
+        return view('purchaseOrder.itemMarginReport',compact('items'));
+    }
 
 
    

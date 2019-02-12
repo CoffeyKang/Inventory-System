@@ -146,7 +146,7 @@ class ShipmentController extends Controller
         /**
          * check biggest normal invno
          */
-        $big_invno = Armast::orderBy('invno','desc')->where('artype','!=','O')->first()?Armast::orderBy('invno','desc')->where('artype','!=','O')->first()->invno:1000;
+        $big_invno = Armast::orderBy('invno','desc')->where('artype','!=','O')->first()->invno;
 
         $big_invno +=1 ;
         

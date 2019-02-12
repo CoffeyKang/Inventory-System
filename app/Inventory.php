@@ -20,7 +20,7 @@ class Inventory extends Model
     public $incrementing = false;
 
     protected $fillable = ['ytdqty','ytdsls','ptdqty','ptdsls','descrip', 'make', 'pricel','mark', 'class',
-      'seq','seq2', 'unitms', 'stkcode','taxcode', 'history', 'code','supplier',
+      'seq','seq2', 'unitms', 'stkcode','taxcode', 'history', 'code','supplier', 'cost',
       'orderpt','orderpt2', 'orderqty', 'price','exchangerate','CADcost','lbs','weight','length','width','height','cupt','totqty','totsls','onorder','fobcost','price2','price3','price4','onshpeta','lastordr','year_from','year_end','model','vpartno','package','display'];
 
     public function potran(){

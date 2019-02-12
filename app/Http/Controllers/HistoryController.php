@@ -312,7 +312,7 @@ class HistoryController extends Controller
 
         $total = array_sum($sales_array);
 
-        $first_half = array_sum(array_slice($sales_array, 11));
+        $first_half = array_sum(array_slice($sales_array, 12));
         
         $second_half = $total - $first_half;
 

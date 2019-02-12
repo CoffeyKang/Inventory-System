@@ -156,7 +156,7 @@ class SalesOrdersController extends Controller
 
         $newCustomer->country = $request['country'];
         
-        $newCustomer->terr = $request['terr'];
+        $newCustomer->terr = $request['state'];
 
         $newCustomer->contact = $request['contact'];
 
@@ -559,7 +559,7 @@ class SalesOrdersController extends Controller
             }else{
                 
                 
-                $so = SalesOrder::orderBy('sono','desc')->first()?SalesOrder::orderBy('sono','desc')->first()->sono:100000;
+                $so = SalesOrder::orderBy('sono','desc')->first()->sono;
 
                 $newSo =$so+1;
             }

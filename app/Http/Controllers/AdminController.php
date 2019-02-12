@@ -1865,8 +1865,8 @@ class AdminController extends Controller
      */
     public function updateModel(Request $request){
 
-      $this->validate($request,[
-        'item'=>'required|exists:arimak01']);
+      // $this->validate($request,[
+      //   'item'=>'required|exists:arimak01']);
 
       $item = $request->item;
       $items = Year::where('item',$item)->get();

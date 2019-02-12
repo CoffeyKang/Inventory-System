@@ -232,9 +232,9 @@ $_GET['form'] = 0;
         </div>
         
       
-        <label for="CADcost" class="col-xs-2">CAD Cost</label>
+        <label for="cost" class="col-xs-2">Cost</label>
         <div class="col-xs-2">
-          <input type="text" value='{{$item->CADcost}}' id='CADcost' name='CADcost' class='form-control'>
+          <input type="text" value='{{$item->cost}}' id='cost' name='cost' class='form-control'>
         </div>
 
         <label for="weight" class="col-xs-2">MG</label>

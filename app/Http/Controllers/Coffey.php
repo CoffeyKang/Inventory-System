@@ -93,29 +93,37 @@ class Coffey extends Controller
 	 * @return [type] [description]
 	 */
 	public function coffey(){
-		$inventory = Inventory::all();
-
-		foreach ($inventory as $item) {
-			$height = floatval ($item->height)?:0;
-
-			$length = floatval ($item->length)?:0;
-
-			$width = floatval ($item->width)?:0;
+		$customer = Customer::where('custno','CSALE')->first();
 
 
 
-			$cupt = (($height * $length * $width / 1728) * 100) / 100;
+		$customer->balance = $customer->armast()->get()->sum('balance');
 
-			if ($cupt<=0.1) {
-				$cupt =0.1;
-			}else{
+		$customer->save();
+		return $customer->balance;
+		// $inventory = Inventory::all();
 
-			}
+		// foreach ($inventory as $item) {
+		// 	$height = floatval ($item->height)?:0;
 
-			$item->cupt = $cupt;
+		// 	$length = floatval ($item->length)?:0;
 
-			$item->save();
-		}
+		// 	$width = floatval ($item->width)?:0;
+
+
+
+		// 	$cupt = (($height * $length * $width / 1728) * 100) / 100;
+
+		// 	if ($cupt<=0.1) {
+		// 		$cupt =0.1;
+		// 	}else{
+
+		// 	}
+
+		// 	$item->cupt = $cupt;
+
+		// 	$item->save();
+		// }
 		// $customer = Customer::all();
 
 		// foreach ($customer as $c) {

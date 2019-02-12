@@ -131,7 +131,7 @@
 @if($invoice_details->lastPage()==$invoice_details->currentPage())
                 <tr class='show_in_last_page'>
                     {{-- this is comment --}}
-                    <td colspan='21'> <div class="col-xs-12" style='min-height:50px'><?php echo htmlspecialchars_decode($entire_so_mast->make) ?><br>
+                    <td colspan='21'> <div class="col-xs-12" style='min-height:50px'>{{-- <?php echo htmlspecialchars_decode($entire_so_mast->make) ?> --}}<br>
                             Number Of Package: {{$entire_so_mast->package}}</div></td>
                     
                 </tr>

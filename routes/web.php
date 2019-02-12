@@ -685,6 +685,9 @@ Route::group(['prefix'=>"PO",'middleware' => 'auth'],function(){
 	Route::any('edit_container_add','POshipController@edit_container_add');
 
 
+	/**	itemMarginReport */
+	Route::get('/itemMarginReport','PurchaseOrdersController@itemMarginReport');
+
 
 });
 
