@@ -3041,6 +3041,7 @@ use Illuminate\Support\Facades\Log;
 		->save(public_path("PDF/customer_SO/customer_SO".$custno.".PDF"));
 	}
 
+
 	/**	PDF , CUSTOMER HISTORY PAYMENT */
 	function itemMarginPDF(){
 		if(!file_exists(public_path("PDF/itemMargin/"))){
@@ -3057,7 +3058,6 @@ use Illuminate\Support\Facades\Log;
 		PDF::loadView("PDF.itemMargin",compact('items'))
 		->save(public_path("PDF/itemMargin/itemMargin.PDF"));
 	}
-
 	   	
 
 

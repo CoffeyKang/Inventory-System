@@ -381,6 +381,12 @@ Route::group(['prefix'=>'Shipment','middleware' => 'auth'],function(){
 
 Route::group(['prefix'=>"PO",'middleware' => 'auth'],function(){
 
+	/**	po consolidation */
+	Route::get('/consolidation','PurchaseOrdersController@consolidation');
+
+	Route::get('/Consolidate','PurchaseOrdersController@Consolidate');
+
+	// home
 	Route::get('/home','PurchaseOrdersController@home');
 
 	Route::get('/itemEdit','PurchaseOrdersController@itemEdit');
@@ -684,9 +690,9 @@ Route::group(['prefix'=>"PO",'middleware' => 'auth'],function(){
 	 */
 	Route::any('edit_container_add','POshipController@edit_container_add');
 
-
 	/**	itemMarginReport */
 	Route::get('/itemMarginReport','PurchaseOrdersController@itemMarginReport');
+
 
 
 });

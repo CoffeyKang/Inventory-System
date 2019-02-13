@@ -55,6 +55,7 @@
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
         <li><a href="/inventoryReport?from=po">Inventory Report</a></li>
         <li><a href='/PO/itemMarginReport'>Item Margin Report</a></li>
+        <li><a href='/PO/consolidation'>PO consolidation</a></li>
       </ul>
     </div>
   </div>

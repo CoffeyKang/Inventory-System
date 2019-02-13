@@ -1992,6 +1992,78 @@ class PurchaseOrdersController extends Controller
         return view('purchaseOrder.itemMarginReport',compact('items'));
     }
 
+    public function consolidation(){
+        $pos = PO::where('puramt','!=',0)->select(['purno'])->get()->toArray();
+
+        $container = POSHIP::where('qtyrec','!=',0)->whereIn('purno',$pos)->select(['purno'])->distinct()->get()->toArray();
+
+        $purchase = PO::whereIn('purno',$container)->get();
+        
+        return view('purchaseOrder.consolidation',compact('purchase'));
+    }
+
+    public function Consolidate(Request $request){
+        $vendor = [];
+        $pos = [];
+        foreach ($request->all() as $key => $value) {
+            if ($value) {
+                array_push($vendor,$value);
+                array_push($pos,$key);
+            }else{
+
+            }
+            $vendor = array_unique($vendor);
+           
+            if (count($vendor)>1) {
+                return redirect()->back()->withErrors('Cannot consolidate those Purcahse orders.');    
+            }else{
+                
+
+                /** every thing is good to consolidate pos to a new one */
+
+                
+            }   
+        }
+
+        if (count($pos)>=1) {
+            // pomast
+            $newPO = PO::where('purno',$pos[0])->first();
+            $newPO_id = PO::all()->max('purno')+1;
+            $newPO->purno = $newPO_id;
+            $newPO->reqdate = date('Y-m-d');
+            $newPO->save();
+            /** ship to address */
+            $shipto = POShipTo::where('purno',$pos[0])->first();
+            $shipto->purno = $newPO_id;
+            $shipto->save();
+
+            /** potran */
+            $potran = TEMP_PO::whereIn('purno',$pos)->where('qtyord','!=',0)->update(
+                [
+                    'purno'=>$newPO_id,
+                    'reqdate'=>date('Y-m-d')
+                ]
+            );
+
+            /** update new pomast */
+
+            $newPO->puramt = $newPO->potran->sum('extcost');
+            $newPO->save();
+
+            /** print pdf */
+            print_PO($newPO_id);
+            PO_excel($newPO_id);
+
+            PO::whereIn('purno',$pos)->delete();
+
+
+            return redirect()->back()->with('status','Finish Consolidation.');
+        }else{
+            return redirect()->back()->withErrors('Cannot consolidate those Purcahse orders.'); 
+        }
+
+        
+    }
 
    
 
