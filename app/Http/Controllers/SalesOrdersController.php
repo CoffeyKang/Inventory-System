@@ -1908,6 +1908,7 @@ class SalesOrdersController extends Controller
             'state'=>$request->state,
             'faxno'=>$request->faxno,
             'zip'=>$request->zip,
+            'contact'=>$request->contact,
             'country'=>$request->country,
             'comment'=>$request->comment,
             ]);
