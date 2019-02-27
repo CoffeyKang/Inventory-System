@@ -179,7 +179,7 @@
 							 ?>
 							@foreach($SOS as $s)
 							
-								@if($s->custno == $d)
+								@if(strtoupper($s->custno) == $d)
 									<?php 
 										$priceType = $s->custinfo['pricecode'];
 										switch ($priceType) {
