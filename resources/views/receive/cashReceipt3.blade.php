@@ -50,7 +50,7 @@
 			<th class='col-xs-1'>{{$invoice->balance}}</th>
 			<th class='col-xs-2 '>{{$invoice->paidamt}}</th>
 			<th class=' col-xs-2'>
-				<input type="number" step='0.01' class='form-control ' name='{{$invoice->invno}}DISC' value=0>
+				<input type="number" step='0.01' class='form-control discamt ' name='{{$invoice->invno}}DISC' value=0>
 			</th>
 			<th class='col-xs-3 '>
 				<input type="number" step='0.01' class='form-control amt' name='{{$invoice->invno}}INV' value="{{$invoice->balance}}">
@@ -98,11 +98,12 @@
 
 		function calculateTotal(){
 			$sum = 0.00;
+			$discAMT = 0.00;
 			$remaining = {{$open_invoice->sum('balance')}};
 
 				for (var i = 0; i < $('.amt').length; i++) {
 					$sum += parseFloat($('.amt')[i].value);
-					
+					$discAMT += parseFloat($('.discamt')[i].value);
 				};
 
 				
@@ -118,12 +119,12 @@
 				document.getElementById("Button").disabled = true;
 				document.getElementById('info').innerHTML = "<div class='col-xs-12 alert alert-success' style='text-align:right' >There is a overy pay.<br> Are you sure to Continue.<br><br><button class='btn btn-warning' id='overpay'>Make a over pay</button></div>";
 				$('#overpay').val($sum);
-				document.getElementById('remaining').innerHTML = ($remaining - $sum).toFixed(2);
+				document.getElementById('remaining').innerHTML = ($remaining - $sum - $discAMT).toFixed(2);
 			}else{
 				document.getElementById("Button").disabled = false;
 				document.getElementById('info').innerHTML = "";
 				$('#overpay').val($sum);
-				document.getElementById('remaining').innerHTML = ($remaining - $sum).toFixed(2);
+				document.getElementById('remaining').innerHTML = ($remaining - $sum - $discAMT).toFixed(2);
 			};
 		}
 		$('input').blur(function(){
