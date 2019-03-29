@@ -201,7 +201,6 @@
 
 			</div>
 	@elseif(isset($custno_array))
-	
 				<div class="col-xs-12">
 				<table class="table table-striped table-bordered">
 					<thead>

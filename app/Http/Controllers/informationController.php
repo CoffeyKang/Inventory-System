@@ -567,13 +567,13 @@ class informationController extends Controller
 
         }
         if($begin!=''){
-            $Inventory = $Inventory->where('year_from','>=',$begin);
+            $Inventory = $Inventory->where('year_from','<=',$begin);
         
         }else{
 
         }
         if($end!=''){
-            $Inventory = $Inventory->where('year_end','<=',$end);
+            $Inventory = $Inventory->where('year_end','>=',$end);
         
         }else{}
 

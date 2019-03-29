@@ -93,14 +93,10 @@ class Coffey extends Controller
 	 * @return [type] [description]
 	 */
 	public function coffey(){
-		$customer = Customer::where('custno','CSALE')->first();
 
-
-
-		$customer->balance = $customer->armast()->get()->sum('balance');
-
-		$customer->save();
-		return $customer->balance;
+		
+		
+		
 		// $inventory = Inventory::all();
 
 		// foreach ($inventory as $item) {
