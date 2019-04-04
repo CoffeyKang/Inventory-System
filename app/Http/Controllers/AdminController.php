@@ -2672,5 +2672,78 @@ class AdminController extends Controller
       return redirect()->back()->with('status','Customer Recalled.');
     }
 
+    /** 
+     * goldenLeafreset
+     */
+    public function goldenLeafReset(){
+      return view('admin.goldenLeafReset');
+    }
+
+    /** 
+     * goldenLeafreset
+     */
+    public function recalculatingItem(Request $request){
+      $this->validate($request,[
+        'item'=>"required|exists:inventory",
+      ]);
+      $item = $request->item;
+      $item = Inventory::where('item',$item)->first();
+      if ($item===null) {
+        # code...
+      }else{
+        $aloc = $item->Sodetails->sum('qtyord');
+        $onorder = $item->potran->sum('qtyord');
+        $onship = POSHIP::where('item',$item)->get()->sum('qtyshp');
+        $received = POSHIP::where('item',$item)->get()->sum('qtyrec');
+        $onship_num = $onship - $received;
+        if ($aloc===null||$onorder===null||$onship_num===null) {
+          return redirect()->back()->with('status','Whoops.');
+        }else{
+          $item->aloc = $aloc;
+          $item->onorder = $onorder;
+          $item->onship = $onship_num;
+          $item->save();
+        }
+      }
+      
+      return redirect()->back()->with('status','Item file recalculating finished.');
+    }
+    /** 
+     * goldenLeafreset
+     */
+    public function recalculatingCustomer(Request $request){
+      $this->validate($request,[
+        'custno'=>"required|exists:customers",
+      ]);
+      $customer = $request->custno;
+      $customer = Customer::where('custno',$customer)->first();
+
+      $onorder = $customer->so->sum('ordamt');
+      $balance = $customer->armast->sum('balance');
+      if ($onorder===null||$balance===null) {
+        return redirect()->back()->with('status','Whoops.');
+      }else{
+        $customer->onorder = $onorder;
+        $customer->balance = $balance;
+
+        $customer->save();
+      }
+      
+      return redirect()->back()->with('status','Customer file recalculating finished.');
+    }
+    /** 
+     * goldenLeafreset
+     */
+    // public function recalculatingVendor(Request $request){
+    //   $this->validate($request,[
+    //     'vendno'=>"required|exists:vendors",
+    //   ]);
+    //   $vendor = $request->vendno;
+    //   $vendor = Vendor::where('vendno',$vendor)->first();
+
+    //   $
+    //   return redirect()->back()->with('status','Vendor file recalculating finished.');
+      
+    // }
 
 }

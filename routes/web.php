@@ -1573,3 +1573,15 @@ Route::get('/showAccountList','PayableController@showAccountList')->middleware('
 
 Route::get('/deleteClients/{id}','informationController@deleteClients')->middleware('auth');
 
+
+/**	
+ * recalculate items file column and customer file column as well as vendor files
+ * like onhand column, onorder and so on
+ */
+Route::get('/goldenLeafReset','AdminController@goldenLeafReset')->middleware('auth');
+
+Route::get('/recalculatingItem','AdminController@recalculatingItem')->middleware('auth');
+
+Route::get('/recalculatingCustomer','AdminController@recalculatingCustomer')->middleware('auth');
+
+Route::get('/recalculatingVendor','AdminController@recalculatingVendor')->middleware('auth');
