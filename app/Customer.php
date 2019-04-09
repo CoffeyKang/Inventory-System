@@ -240,4 +240,15 @@ class Customer extends Model
 
         return redirect()->back()->with('status',"The Client recalled.");
     }
+
+
+    /** 
+     * calculate customer 
+     */
+    public function calCustomer(){
+        $this->onorder = $this->so->sum('ordamt');
+        $this->balance = $this->armast->sum('balance');
+        $this->save();
+        
+    }
 }

@@ -94,7 +94,9 @@ class Coffey extends Controller
 	 */
 	public function coffey(){
 
-		
+		$c = Customer::where('custno','A0001')->first();
+
+		$c->calCustomer();
 		
 		
 		// $inventory = Inventory::all();

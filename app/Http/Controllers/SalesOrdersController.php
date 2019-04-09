@@ -57,7 +57,11 @@ class SalesOrdersController extends Controller
     	
     	$customer = Customer::where('custno',$custno)->first();
 
-        
+        if ($customer===null) {
+            # code...
+        }else{
+            $customer->calCustomer();
+        }
 
 
 

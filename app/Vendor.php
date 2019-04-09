@@ -4,6 +4,7 @@ namespace App;
 
 use DB;
 
+
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -132,4 +133,15 @@ class Vendor extends Model
     public function notes(){
         return $this->hasMany('App\VendorNotes','vendno');
     }
+
+
+    public function openPO(){
+        return $this->hasMany('App\PO','vendno')->where('puramt','!=',0);
+    }
+
+    public function calOpenPO(){
+        $this->openpo = $this->openPO->sum('puramt');
+        $this->save();
+    }
+
 }

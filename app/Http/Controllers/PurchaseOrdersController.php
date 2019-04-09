@@ -269,6 +269,12 @@ class PurchaseOrdersController extends Controller
 
         $vendor = Vendor::where('vendno',$_GET['vendno'])->first();
 
+        if ($vendor===null) {
+            # code...
+        }else{
+            $vendor->calOpenPO();
+        }
+
         return view('purchaseOrder.vendorInfo', compact("vendor"));
     }
 
