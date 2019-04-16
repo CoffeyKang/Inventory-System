@@ -48,7 +48,7 @@ class SalesOrdersController extends Controller
      * customer info
      */
     public function customerInfo(Request $request){
-
+            
 
         $custno = $_GET['costomerNum'];
 

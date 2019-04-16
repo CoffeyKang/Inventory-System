@@ -469,6 +469,8 @@ class informationController extends Controller
             'cost' =>$request->cost,
 
             "CADcost" =>round($request->cost*$request->exchangerate,2),
+
+            "specialItem" => $request->specialItem,
             
             ]);
 
